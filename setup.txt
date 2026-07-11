@@ -1,0 +1,199 @@
+**Correction:** “How do I push the project to GitHub and host it so I can run it on my phone?”
+
+For your **CoRoute MERN project**, I recommend this setup:
+
+**GitHub → source code**
+**Render → Node/Express backend**
+**Vercel → React/Vite frontend**
+**MongoDB Atlas → cloud database**
+
+This will give you a public HTTPS URL that you can open on your OnePlus or any phone.
+
+## 1. Before pushing: check `.gitignore`
+
+In the **root `CoRoute_merged` folder**, create `.gitignore`:
+
+```gitignore
+node_modules/
+frontend/node_modules/
+backend/node_modules/
+
+.env
+.env.local
+frontend/.env
+backend/.env
+
+frontend/dist/
+
+*.log
+.DS_Store
+```
+
+**Very important:** Never push `MONGO_URI`, `JWT_SECRET`, or other secrets. Hosting services support environment variables specifically for this purpose. ([Render][1])
+
+## 2. Push CoRoute to GitHub
+
+Create a new repository on [GitHub](https://github.com/?utm_source=chatgpt.com) named:
+
+```text
+CoRoute
+```
+
+Do **not** initialize it with README, `.gitignore`, or a license; GitHub recommends an empty repository when importing existing local code. ([GitHub Docs][2])
+
+Open CMD or Git Bash inside `CoRoute_merged`:
+
+```bash
+git init
+git add .
+git commit -m "Initial commit - CoRoute final project"
+git branch -M main
+git remote add origin YOUR_GITHUB_REPOSITORY_URL
+git push -u origin main
+```
+
+For example, the remote command will look like:
+
+```bash
+git remote add origin https://github.com/YOUR_USERNAME/CoRoute.git
+```
+
+`git push origin main` pushes your local `main` branch to the remote repository. ([GitHub Docs][3])
+
+## 3. Move MongoDB to cloud
+
+If your backend `.env` contains:
+
+```env
+MONGO_URI=mongodb://localhost:27017/coroute
+```
+
+that **will not work after hosting**.
+
+Create a free cluster on [MongoDB Atlas](https://www.mongodb.com/cloud/atlas/register?utm_source=chatgpt.com).
+
+Create a database user, then copy the Atlas connection string. Atlas requires a database user and permits connections only from configured IP access-list entries. ([MongoDB][4])
+
+Your backend environment variable should look similar to:
+
+```env
+MONGO_URI=mongodb+srv://USERNAME:PASSWORD@cluster.mongodb.net/coroute
+JWT_SECRET=YOUR_SECRET_KEY
+```
+
+For a simple student deployment, Render may require Atlas network access from changing public IPs. `0.0.0.0/0` allows connections from anywhere, but MongoDB explicitly warns that this is broader and less secure; use strong credentials and tighter access where possible. ([MongoDB][5])
+
+## 4. Host backend on Render
+
+Open [Render](https://render.com/?utm_source=chatgpt.com).
+
+Render supports deploying Node/Express web services from a linked GitHub repository. ([Render][6])
+
+Choose **New → Web Service → Connect GitHub → CoRoute**.
+
+Set:
+
+```text
+Root Directory: backend
+Build Command: npm install
+Start Command: npm start
+```
+
+If your `package.json` does not have a `start` script, use:
+
+```text
+node server.js
+```
+
+Add environment variables in Render:
+
+```env
+MONGO_URI=YOUR_MONGODB_ATLAS_URL
+JWT_SECRET=YOUR_JWT_SECRET
+NODE_ENV=production
+```
+
+Do **not** add `PORT` unless your code specifically requires it. Render provides runtime environment information, and your server should normally use `process.env.PORT`. ([Render][7])
+
+After deployment, you will get a URL similar to:
+
+```text
+https://coroute-backend.onrender.com
+```
+
+## 5. Host frontend on Vercel
+
+Open [Vercel](https://vercel.com/?utm_source=chatgpt.com).
+
+Import your **CoRoute GitHub repository**.
+
+Configure:
+
+```text
+Framework Preset: Vite
+Root Directory: frontend
+Build Command: npm run build
+Output Directory: dist
+```
+
+Vercel has first-class Vite deployment support. ([Vercel][8])
+
+Add these environment variables:
+
+```env
+VITE_BACKEND_URL=https://coroute-backend.onrender.com
+VITE_MAPBOX_TOKEN=YOUR_MAPBOX_TOKEN
+```
+
+Your Vite environment variables must use the `VITE_` prefix to be accessible in frontend code. ([Vercel][8])
+
+Then click **Deploy**.
+
+You should receive a URL like:
+
+```text
+https://coroute.vercel.app
+```
+
+## 6. Update backend CORS
+
+Your backend probably currently allows:
+
+```env
+FRONTEND_URL=http://localhost:5173
+```
+
+In Render, change it to:
+
+```env
+FRONTEND_URL=https://coroute.vercel.app
+```
+
+Use your **actual Vercel URL**.
+
+Then redeploy the backend.
+
+## 7. Run CoRoute on your phone
+
+On your phone, open Chrome and visit your Vercel deployment URL.
+
+```text
+https://coroute.vercel.app
+```
+
+You can then test the project as two users: use your phone as a **Ride Partner** and your laptop/incognito browser as a **Ride Host**. This is especially useful for testing chat, unread message notifications, booking, recurring rides, and ride management.
+
+### Recommended deployment order
+
+**GitHub → MongoDB Atlas → Render backend → Vercel frontend → update Render `FRONTEND_URL` → final test.**
+
+If you want, upload your **final backend `.env.example`, `server.js`, and both `package.json` files**. I can check the exact environment variables and deployment commands for your CoRoute code before you deploy.
+
+[1]: https://render.com/docs/configure-environment-variables?utm_source=chatgpt.com "Environment Variables and Secrets"
+[2]: https://docs.github.com/en/migrations/importing-source-code/using-the-command-line-to-import-source-code/adding-locally-hosted-code-to-github?utm_source=chatgpt.com "Adding locally hosted code to GitHub"
+[3]: https://docs.github.com/en/get-started/using-git/pushing-commits-to-a-remote-repository?utm_source=chatgpt.com "Pushing commits to a remote repository"
+[4]: https://www.mongodb.com/docs/atlas/connect-to-database-deployment/?utm_source=chatgpt.com "Connect to an Atlas Cluster"
+[5]: https://www.mongodb.com/docs/atlas/manage-connections-google-cloud/?utm_source=chatgpt.com "Manage Connections with Google Cloud - Atlas"
+[6]: https://render.com/docs/deploy-node-express-app?utm_source=chatgpt.com "Deploy a Node Express App on Render"
+[7]: https://render.com/docs/environment-variables?utm_source=chatgpt.com "Default Environment Variables"
+[8]: https://vercel.com/docs/frameworks/frontend/vite?utm_source=chatgpt.com "Vite on Vercel"
