@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { AuthContext } from '../context/AuthContext';
 import AuthBackground from '../components/AuthBackground';
 import { Eye, EyeOff } from 'lucide-react';
-import { comman, signup } from '../styles/style';
+import { comman, signup } from '../styles/style.js';
 
 const Login = () => {
   const location = useLocation();

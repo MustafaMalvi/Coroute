@@ -4,7 +4,7 @@ import api from '../api';
 import { toast } from 'react-toastify';
 import AuthBackground from '../components/AuthBackground';
 import { Eye, EyeOff, Car, Users } from "lucide-react";
-import { signup, comman } from '../styles/style';
+import { signup, comman } from '../styles/style.js';
 
 const getSignupErrorMessage = (error) => {
 
