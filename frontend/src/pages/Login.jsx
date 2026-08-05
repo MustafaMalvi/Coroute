@@ -22,7 +22,7 @@ const Login = () => {
     if (email.trim() !== "" && pwd.trim() !== "") {
       try {
         setloading(true);
-        const response = await api.post('/api/auth/login', { email, pwd });
+        const response = await api.post('/api/auth/login', { email, password: pwd });
         const { token, user } = response.data;
         login(token, user.name, user.gender, user.id, user.role);
         toast.success(`Welcome back, ${user.name.split(" ")[0]}!`);
