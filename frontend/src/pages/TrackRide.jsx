@@ -2,6 +2,7 @@ import { useContext, Suspense, lazy } from 'react';
 import { AuthContext } from '../context/AuthContext';
 
 const LiveMap = lazy(() => import('../components/mapbox'));
+const mapboxToken = import.meta.env.VITE_MAPBOX_TOKEN;
 
 const TrackRide = () => {
   const { user } = useContext(AuthContext);

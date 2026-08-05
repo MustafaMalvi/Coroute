@@ -3,10 +3,12 @@ import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { MAPBOX_TOKEN, DEFAULT_PROXIMITY } from '../mapboxConfig';
 
+
 mapboxgl.accessToken = MAPBOX_TOKEN;
 
 const ROUTE_SOURCE_ID = 'live-route';
 const ACCURACY_SOURCE_ID = 'live-accuracy';
+const mapboxToken = import.meta.env.VITE_MAPBOX_TOKEN;
 
 const Mapbox = () => {
   const mapContainerRef = useRef(null);

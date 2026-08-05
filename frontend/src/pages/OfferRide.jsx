@@ -7,6 +7,7 @@ import LocationAutocomplete from '../components/LocationAutocomplete';
 
 const WEEKDAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 const todayISO = () => new Date().toISOString().split('T')[0];
+const mapboxToken = import.meta.env.VITE_MAPBOX_TOKEN;
 
 const OfferRide = () => {
   const navigate = useNavigate();
