@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import api from '../api';
 import SearchFilter from '../components/SearchFilter';
 import RideList from '../components/RideList';
+import { findride, comman } from '../styles/style';
 
 const FindRide = () => {
   const [grouped, setGrouped] = useState({ todaysOneTimeRides: [], todaysRecurringRides: [], upcomingOneTimeRides: [], all: [] });
@@ -47,9 +48,9 @@ const FindRide = () => {
           <div className="absolute bottom-0 right-10 w-72 h-72 bg-route-500/20 rounded-full blur-3xl"></div>
         </div>
         <div className="relative max-w-4xl mx-auto text-center">
-          <span className="font-meter text-xs tracking-[0.2em] uppercase text-marigold-500">Live routes</span>
-          <h2 className="font-display text-3xl md:text-4xl text-paper mt-3">Find your perfect ride</h2>
-          <p className="text-paper/60 mt-3 max-w-xl mx-auto">
+          <span className={comman.yellowtxt} >Live routes</span>
+          <h2 className={comman.pageheading} >Find your perfect ride</h2>
+          <p className={comman.pagesubh} >
             Discover verified ride hosts travelling on your route. Book a seat quickly, travel safely, and save money.
           </p>
         </div>
@@ -69,19 +70,19 @@ const FindRide = () => {
           ) : (
             <div className="mt-10 space-y-10">
               <section>
-                <h3 className="font-display text-xl mb-1 flex items-center gap-2">📅 Today's One-Time Rides</h3>
-                <p className="text-ink-600 text-sm mb-4">Single rides departing today.</p>
+                <h3 className={comman.heading} >📅 Today's One-Time Rides</h3>
+                <p className={comman.subh}>Single rides departing today.</p>
                 <RideList rides={grouped.todaysOneTimeRides} />
               </section>
               <section>
-                <h3 className="font-display text-xl mb-1 flex items-center gap-2">🔁 Today's Recurring Rides</h3>
-                <p className="text-ink-600 text-sm mb-4">Standing routes that run every weekday selected by the host.</p>
+                <h3 className={comman.heading}>🔁 Today's Recurring Rides</h3>
+                <p className={comman.subh}>Standing routes that run every weekday selected by the host.</p>
                 <RideList rides={grouped.todaysRecurringRides} />
               </section>
               {grouped.upcomingOneTimeRides?.length > 0 && (
                 <section>
-                  <h3 className="font-display text-xl mb-1">Upcoming one-time rides</h3>
-                  <p className="text-ink-600 text-sm mb-4">One-time rides scheduled for later dates.</p>
+                  <h3 className={comman.heading} >Upcoming one-time rides</h3>
+                  <p className={comman.subh} >One-time rides scheduled for later dates.</p>
                   <RideList rides={grouped.upcomingOneTimeRides} />
                 </section>
               )}
