@@ -82,7 +82,11 @@ const Signup = () => {
         toast.error('Password must be at least 6 characters long.');
         return;
       }
+<<<<<<< HEAD
 
+=======
+      
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
       if (password !== conpassword){
         toast.error('Please Enter Same Password in Confirm Password Fild')
         return;
@@ -131,6 +135,7 @@ const Signup = () => {
       const char = rawValue[i];
 
       if (i < 2) {
+<<<<<<< HEAD
         if (/[A-Z]/.test(char))
           validValue += char;
       } else if (i < 4) {
@@ -141,15 +146,35 @@ const Signup = () => {
           validValue += char;
       } else if (i < 10) {
         if (/[0-9]/.test(char))
+=======
+        if (/[A-Z]/.test(char)) 
+          validValue += char;
+      } else if (i < 4) {
+        if (/[0-9]/.test(char)) 
+          validValue += char;
+      } else if (i < 6) {
+        if (/[A-Z]/.test(char)) 
+          validValue += char;
+      } else if (i < 10) {
+        if (/[0-9]/.test(char)) 
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
           validValue += char;
       }
     }
 
+<<<<<<< HEAD
+=======
+  // 3. Auto-insert hyphens for display
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
     let formattedValue = validValue;
     if (validValue.length > 2) formattedValue = `${validValue.slice(0, 2)}-${validValue.slice(2)}`;
     if (validValue.length > 4) formattedValue = `${formattedValue.slice(0, 5)}-${validValue.slice(4)}`;
     if (validValue.length > 6) formattedValue = `${formattedValue.slice(0, 8)}-${validValue.slice(6)}`;
 
+<<<<<<< HEAD
+=======
+  // 4. Update state
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
     setVehicleNumber(formattedValue);
   };
 
@@ -264,7 +289,11 @@ const Signup = () => {
               <div className="bg-white/5 border border-white/10 rounded-xl p-4 space-y-3 animate-fade-in">
                 <p className="text-xs font-bold uppercase tracking-wide text-marigold-400">Vehicle details</p>
                 <p className="text-[11px] text-paper/40 -mt-2">Saved to your Host profile — no need to re-enter this when you publish a ride.</p>
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
                 <div className="grid grid-cols-2 gap-3">
                   <div className="col-span-2">
                     <label className={signup.label}>Vehicle number</label>
@@ -280,7 +309,11 @@ const Signup = () => {
                       required
                     />
                   </div>
+<<<<<<< HEAD
 
+=======
+      
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
                   <div>
                     <label className={signup.label}>Vehicle type</label>
                     <select
@@ -293,7 +326,11 @@ const Signup = () => {
                       <option style={{backgroundColor:"#4e4949d9"}} value="Bike">Bike</option>
                     </select>
                   </div>
+<<<<<<< HEAD
 
+=======
+      
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
                   <div>
                     <label className={signup.label}>Vehicle model</label>
                     <input
@@ -304,7 +341,11 @@ const Signup = () => {
                       className={signup.input}
                     />
                   </div>
+<<<<<<< HEAD
 
+=======
+      
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
                   <div className="col-span-2">
                     <label className={signup.label}>Vehicle color</label>
                     <input

@@ -4,6 +4,10 @@ export default {
   theme: {
     extend: {
       colors: {
+<<<<<<< HEAD
+=======
+        // Rickshaw livery + ticket-paper palette
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
         ink: {
           DEFAULT: '#16171A',
           800: '#222329',
@@ -17,19 +21,31 @@ export default {
           200: '#FFE08C',
           300: '#FFCF54',
           400: '#FFC22E',
+<<<<<<< HEAD
           500: '#F5AE0E',
+=======
+          500: '#F5AE0E', // core brand yellow — the rickshaw roof
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
           600: '#D6910A',
           700: '#A66F08',
         },
         paper: {
+<<<<<<< HEAD
           DEFAULT: '#FBF6EA',
+=======
+          DEFAULT: '#FBF6EA', // ticket paper
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
           dim: '#F1E9D6',
         },
         route: {
           50: '#E9F7F3',
           100: '#CBEEE4',
           400: '#2FA88C',
+<<<<<<< HEAD
           500: '#1B8F7A',
+=======
+          500: '#1B8F7A', // teal — live-tracking / route lines
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
           600: '#146B5D',
         },
         alert: {

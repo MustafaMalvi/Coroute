@@ -3,7 +3,10 @@ import WhyChoose from '../components/WhyChoose';
 import Features from '../components/Features';
 import Testimonials from '../components/Testimonials';
 import FAQ from '../components/FAQ';
+<<<<<<< HEAD
 import { heading, wrap } from '../styles/style';
+=======
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
 
 const STEPS = [
   {
@@ -33,10 +36,17 @@ const Home = () => {
     <div className="flex flex-col flex-1">
       <HeroSection />
 
+<<<<<<< HEAD
       <section className={wrap.section}>
         <div className="mb-14 max-w-xl">
           <span className={heading.eyebrowRoute}>How it works</span>
           <h2 className={heading.page}>Four stops, one ticket.</h2>
+=======
+      <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto w-full">
+        <div className="mb-14 max-w-xl">
+          <span className="font-meter text-xs tracking-[0.2em] uppercase text-route-500">How it works</span>
+          <h2 className="font-display text-3xl sm:text-4xl mt-2">Four stops, one ticket.</h2>
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-ink/10 rounded-2xl overflow-hidden border border-ink/10">
@@ -72,4 +82,8 @@ const Home = () => {
   );
 };
 
+<<<<<<< HEAD
 export default Home;
+=======
+export default Home;
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9

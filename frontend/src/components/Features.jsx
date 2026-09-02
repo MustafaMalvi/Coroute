@@ -1,5 +1,8 @@
 import CounterStat from './CounterStat';
+<<<<<<< HEAD
 import { heading, wrap } from '../styles/style';
+=======
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
 
 const FEATURES = [
   { title: 'Ride Matching', icon: 'M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-1.13a4 4 0 10-4-4 4 4 0 004 4zm6 0a4 4 0 10-4-4' },
@@ -20,10 +23,17 @@ const STATS = [
 
 const Features = () => (
   <>
+<<<<<<< HEAD
     <section className={wrap.section}>
       <div className="mb-12 max-w-xl">
         <span className={heading.eyebrowRoute}>Features</span>
         <h2 className={heading.page}>Everything you need, nothing you don&apos;t.</h2>
+=======
+    <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto w-full">
+      <div className="mb-12 max-w-xl">
+        <span className="font-meter text-xs tracking-[0.2em] uppercase text-route-500">Features</span>
+        <h2 className="font-display text-3xl sm:text-4xl mt-2">Everything you need, nothing you don&apos;t.</h2>
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">

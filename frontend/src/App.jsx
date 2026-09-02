@@ -93,6 +93,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+<<<<<<< HEAD
           <Route
             path="/track-ride/:rideId"
             element={
@@ -101,6 +102,8 @@ function App() {
               </ProtectedRoute>
             }
           />
+=======
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
         </Routes>
       </main>
       <Footer />

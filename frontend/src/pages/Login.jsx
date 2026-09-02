@@ -34,10 +34,17 @@ const Login = () => {
           toast.error("Looks like you don't have an account yet. Please sign up first!");
           navigate('/signup');
         }
+<<<<<<< HEAD
         else
           toast.error(error.response?.data?.message || 'Login failed. Please check your credentials.');
 
       }
+=======
+        else 
+          toast.error(error.response?.data?.message || 'Login failed. Please check your credentials.');
+        
+      } 
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
       finally {
         setloading(false);
       }
@@ -86,8 +93,13 @@ const Login = () => {
                 onChange={(e) => setpwd(e.target.value)}
                 required
               />
+<<<<<<< HEAD
               <button type='button'
                 onClick={() => setshowpwd(!showpwd)}
+=======
+              <button type='button' 
+                onClick={() => setshowpwd(!showpwd)} 
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
                 className={signup.eyebutton} >
                   {showpwd ? (<EyeOff className='w-5 h-5 text-paper/60' />) : (<Eye className='w-5 h-5 text-paper/60'/>)}
               </button>
@@ -112,4 +124,8 @@ const Login = () => {
   );
 };
 
+<<<<<<< HEAD
 export default Login;
+=======
+export default Login;
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9

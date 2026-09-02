@@ -6,8 +6,15 @@ import { AuthContext } from './AuthContext';
 
 const POLL_INTERVAL_MS = 15000;
 
+<<<<<<< HEAD
 export const MessageNotificationsContext = createContext({ unreadCount: 0 });
 
+=======
+// eslint-disable-next-line react-refresh/only-export-components
+export const MessageNotificationsContext = createContext({ unreadCount: 0 });
+
+// eslint-disable-next-line react-refresh/only-export-components
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
 export const useMessageNotifications = () => useContext(MessageNotificationsContext);
 
 export const MessageNotificationsProvider = ({ children }) => {
@@ -15,6 +22,12 @@ export const MessageNotificationsProvider = ({ children }) => {
   const navigate = useNavigate();
   const [unreadCount, setUnreadCount] = useState(0);
 
+<<<<<<< HEAD
+=======
+  // Tracks the latest message timestamp we've already surfaced per partner,
+  // so we only toast genuinely new arrivals — not the same unread message twice,
+  // and not the backlog of unread messages that already existed at login.
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
   const seenTimestamps = useRef(new Map());
   const isFirstPoll = useRef(true);
   const intervalRef = useRef(null);
@@ -44,6 +57,10 @@ export const MessageNotificationsProvider = ({ children }) => {
 
       isFirstPoll.current = false;
     } catch (err) {
+<<<<<<< HEAD
+=======
+      // Silent — notifications are a background convenience, not critical path.
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
     }
   }, [user, navigate]);
 
@@ -61,6 +78,10 @@ export const MessageNotificationsProvider = ({ children }) => {
     return () => clearInterval(intervalRef.current);
   }, [user, poll]);
 
+<<<<<<< HEAD
+=======
+  // Let any page force an immediate refresh (e.g. Inbox/Chat after marking messages read).
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
   const refreshNow = useCallback(() => poll(), [poll]);
 
   return (
@@ -68,4 +89,8 @@ export const MessageNotificationsProvider = ({ children }) => {
       {children}
     </MessageNotificationsContext.Provider>
   );
+<<<<<<< HEAD
 };
+=======
+};
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9

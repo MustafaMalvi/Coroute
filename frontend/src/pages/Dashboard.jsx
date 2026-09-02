@@ -2,17 +2,27 @@ import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import HostDashboard from '../components/HostDashboard';
 import PartnerDashboard from '../components/PartnerDashboard';
+<<<<<<< HEAD
 import { heading, wrap } from '../styles/style';
+=======
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
 
 const Dashboard = () => {
   const { user } = useContext(AuthContext);
   const isHost = user?.role === 'host';
 
   return (
+<<<<<<< HEAD
     <div className={wrap.page}>
       <div className="max-w-6xl mx-auto">
         <div className="mb-8">
           <span className={heading.eyebrowRoute}>
+=======
+    <div className="flex-1 bg-paper py-10 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto">
+        <div className="mb-8">
+          <span className="font-meter text-xs tracking-[0.2em] uppercase text-route-500">
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
             {isHost ? 'Ride Host' : 'Ride Partner'}
           </span>
           <h1 className="font-display text-3xl mt-2">

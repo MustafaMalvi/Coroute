@@ -5,11 +5,19 @@ const requireRole = require('../middleware/requireRole');
 const User = require('../models/User');
 const Ride = require('../models/Ride');
 const Booking = require('../models/Booking');
+<<<<<<< HEAD
 const Review = require('../models/Review');
 const Message = require('../models/Message');
 
 const WEEKDAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
+=======
+
+const WEEKDAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
+// ──────────── Helpers ────────────
+
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
 const dateKey = (d) => {
   const dt = new Date(d);
   const y = dt.getFullYear();
@@ -92,6 +100,10 @@ const validateRideInput = (body) => {
   return null;
 };
 
+<<<<<<< HEAD
+=======
+// GET /api/rides
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
 router.get('/', async (req, res, next) => {
   try {
     const now = new Date();
@@ -103,7 +115,11 @@ router.get('/', async (req, res, next) => {
       availableSeats: { $gt: 0 }
     })
       .sort({ departureTime: 1 })
+<<<<<<< HEAD
       .populate('creator', 'name phoneNumber rating reviewCount')
+=======
+      .populate('creator', 'name phoneNumber rating')
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
       .populate('passengers.userId', 'name');
 
     const recurringRides = await Ride.find({
@@ -112,7 +128,11 @@ router.get('/', async (req, res, next) => {
       status: { $nin: ['Cancelled'] },
       availableSeats: { $gt: 0 }
     })
+<<<<<<< HEAD
       .populate('creator', 'name phoneNumber rating reviewCount')
+=======
+      .populate('creator', 'name phoneNumber rating')
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
       .populate('passengers.userId', 'name');
 
     const todaysRecurring = recurringRides
@@ -138,6 +158,10 @@ router.get('/', async (req, res, next) => {
   }
 });
 
+<<<<<<< HEAD
+=======
+// GET /api/rides/my-rides
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
 router.get('/my-rides', auth, async (req, res, next) => {
   try {
     const rides = await Ride.find({ creator: req.user.userId })
@@ -169,6 +193,10 @@ router.get('/my-rides', auth, async (req, res, next) => {
   }
 });
 
+<<<<<<< HEAD
+=======
+// GET /api/rides/dashboard/stats
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
 router.get('/dashboard/stats', auth, async (req, res, next) => {
   try {
     if (req.user.role === 'host') {
@@ -236,6 +264,10 @@ router.get('/dashboard/stats', auth, async (req, res, next) => {
   }
 });
 
+<<<<<<< HEAD
+=======
+// POST /api/rides
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
 router.post('/', auth, requireRole('host'), async (req, res, next) => {
   try {
     const host = await User.findById(req.user.userId);
@@ -301,6 +333,10 @@ router.post('/', auth, requireRole('host'), async (req, res, next) => {
   }
 });
 
+<<<<<<< HEAD
+=======
+// POST /api/rides/:id/book
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
 router.post('/:id/book', auth, requireRole('partner'), async (req, res, next) => {
   try {
     const rideId = req.params.id;
@@ -365,6 +401,10 @@ router.post('/:id/book', auth, requireRole('partner'), async (req, res, next) =>
   }
 });
 
+<<<<<<< HEAD
+=======
+// PUT /api/rides/:id
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
 router.put('/:id', auth, requireRole('host'), async (req, res, next) => {
   try {
     const ride = await Ride.findById(req.params.id);
@@ -432,6 +472,7 @@ async function loadOwnedRecurringRide(req, res) {
   return ride;
 }
 
+<<<<<<< HEAD
 async function notifyPassengers(ride, hostId, content) {
   const passengerIds = (ride.passengers || [])
     .map(p => p.userId?.toString())
@@ -444,6 +485,8 @@ async function notifyPassengers(ride, hostId, content) {
   );
 }
 
+=======
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
 router.patch('/:id/pause', auth, requireRole('host'), async (req, res, next) => {
   try {
     const ride = await loadOwnedRecurringRide(req, res);
@@ -451,7 +494,10 @@ router.patch('/:id/pause', auth, requireRole('host'), async (req, res, next) => 
     ride.isPaused = true;
     ride.status = 'Paused';
     await ride.save();
+<<<<<<< HEAD
     await notifyPassengers(ride, req.user.userId, `I've paused the ${ride.pickupLocation} to ${ride.dropoffLocation} ride until further notice.`);
+=======
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
     res.json(ride);
   } catch (err) { next(err); }
 });
@@ -474,7 +520,10 @@ router.patch('/:id/cancel-today', auth, requireRole('host'), async (req, res, ne
     const key = dateKey(new Date());
     if (!ride.skipDates.includes(key)) ride.skipDates.push(key);
     await ride.save();
+<<<<<<< HEAD
     await notifyPassengers(ride, req.user.userId, `Heads up - I've cancelled today's ${ride.pickupLocation} to ${ride.dropoffLocation} ride. Tomorrow continues as scheduled.`);
+=======
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
     res.json({ message: "Today's ride has been cancelled. Tomorrow continues as scheduled.", ride });
   } catch (err) { next(err); }
 });
@@ -487,7 +536,10 @@ router.patch('/:id/cancel-tomorrow', auth, requireRole('host'), async (req, res,
     const key = dateKey(tomorrow);
     if (!ride.skipDates.includes(key)) ride.skipDates.push(key);
     await ride.save();
+<<<<<<< HEAD
     await notifyPassengers(ride, req.user.userId, `Heads up - I've cancelled tomorrow's ${ride.pickupLocation} to ${ride.dropoffLocation} ride.`);
+=======
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
     res.json({ message: "Tomorrow's ride has been cancelled.", ride });
   } catch (err) { next(err); }
 });
@@ -503,7 +555,10 @@ router.patch('/:id/reschedule-today', auth, requireRole('host'), async (req, res
     const key = dateKey(new Date());
     ride.dateOverrides.set(key, departureTimeStr);
     await ride.save();
+<<<<<<< HEAD
     await notifyPassengers(ride, req.user.userId, `Today's ${ride.pickupLocation} to ${ride.dropoffLocation} ride has been rescheduled to ${departureTimeStr}.`);
+=======
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
     res.json({ message: "Today's ride has been rescheduled.", ride });
   } catch (err) { next(err); }
 });
@@ -522,11 +577,18 @@ router.patch('/:id/reschedule-schedule', auth, requireRole('host'), async (req, 
     ride.departureTime = newTime;
     ride.dateOverrides = new Map();
     await ride.save();
+<<<<<<< HEAD
     await notifyPassengers(ride, req.user.userId, `The ${ride.pickupLocation} to ${ride.dropoffLocation} ride schedule has changed - new departure time is ${departureTimeStr}, starting today.`);
+=======
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
     res.json({ message: 'All future recurring rides updated to the new time.', ride });
   } catch (err) { next(err); }
 });
 
+<<<<<<< HEAD
+=======
+// DELETE /api/rides/:id — Delete Permanently
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
 router.delete('/:id', auth, requireRole('host'), async (req, res, next) => {
   try {
     const ride = await Ride.findById(req.params.id);
@@ -535,7 +597,10 @@ router.delete('/:id', auth, requireRole('host'), async (req, res, next) => {
       return res.status(403).json({ message: 'You can only delete your own rides.' });
     }
 
+<<<<<<< HEAD
     await notifyPassengers(ride, req.user.userId, `The ${ride.pickupLocation} to ${ride.dropoffLocation} ride has been removed by the host and is no longer available.`);
+=======
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
     await Ride.findByIdAndDelete(req.params.id);
     await Booking.updateMany({ ride: req.params.id }, { $set: { bookingStatus: 'cancelled' } });
     res.json({ message: 'Ride deleted successfully.' });
@@ -544,6 +609,10 @@ router.delete('/:id', auth, requireRole('host'), async (req, res, next) => {
   }
 });
 
+<<<<<<< HEAD
+=======
+// POST /api/rides/:id/cancel-ride — soft cancel (keeps history)
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
 router.post('/:id/cancel-ride', auth, requireRole('host'), async (req, res, next) => {
   try {
     const ride = await Ride.findById(req.params.id);
@@ -553,12 +622,19 @@ router.post('/:id/cancel-ride', auth, requireRole('host'), async (req, res, next
     }
     ride.status = 'Cancelled';
     await ride.save();
+<<<<<<< HEAD
     await notifyPassengers(ride, req.user.userId, `The ${ride.pickupLocation} to ${ride.dropoffLocation} ride has been cancelled by the host.`);
+=======
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
     await Booking.updateMany({ ride: ride._id }, { $set: { bookingStatus: 'cancelled' } });
     res.json({ message: 'Ride cancelled.', ride });
   } catch (err) { next(err); }
 });
 
+<<<<<<< HEAD
+=======
+// POST /api/rides/:id/cancel — Ride Partner cancels their booking
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
 router.post('/:id/cancel', auth, requireRole('partner'), async (req, res, next) => {
   try {
     const ride = await Ride.findById(req.params.id);
@@ -571,18 +647,24 @@ router.post('/:id/cancel', auth, requireRole('partner'), async (req, res, next) 
 
     const scope = req.body.scope === 'today' ? 'today' : 'all';
     const booking = await Booking.findOne({ ride: ride._id, passenger: req.user.userId, bookingStatus: { $in: ['active', 'paused'] } });
+<<<<<<< HEAD
     const partner = await User.findById(req.user.userId).select('name');
     const partnerName = partner?.name || 'A rider';
+=======
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
 
     if (scope === 'today' && booking?.bookingType === 'recurring') {
       const key = dateKey(new Date());
       if (!booking.skipDates.includes(key)) booking.skipDates.push(key);
       await booking.save();
+<<<<<<< HEAD
       await Message.create({
         sender: req.user.userId,
         receiver: ride.creator,
         content: `${partnerName} cancelled their seat on today's ${ride.pickupLocation} to ${ride.dropoffLocation} ride. Their recurring booking otherwise continues.`
       });
+=======
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
       return res.json({ message: "Today's ride has been cancelled. Your recurring booking continues.", ride });
     }
 
@@ -602,12 +684,15 @@ router.post('/:id/cancel', auth, requireRole('partner'), async (req, res, next) 
       { $set: { 'bookedRides.$.status': 'cancelled' } }
     );
 
+<<<<<<< HEAD
     await Message.create({
       sender: req.user.userId,
       receiver: ride.creator,
       content: `${partnerName} cancelled their booking on your ${ride.pickupLocation} to ${ride.dropoffLocation} ride. A seat has opened up.`
     });
 
+=======
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
     res.json({ message: 'Booking cancelled successfully.', ride });
   } catch (err) {
     next(err);
@@ -634,6 +719,10 @@ router.patch('/:id/booking/resume', auth, requireRole('partner'), async (req, re
   } catch (err) { next(err); }
 });
 
+<<<<<<< HEAD
+=======
+// GET /api/rides/my-bookings
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
 router.get('/my-bookings', auth, requireRole('partner'), async (req, res, next) => {
   try {
     const bookings = await Booking.find({ passenger: req.user.userId })
@@ -660,6 +749,7 @@ router.get('/my-bookings', auth, requireRole('partner'), async (req, res, next) 
       }
     });
 
+<<<<<<< HEAD
     const reviewableEntries = [...completedTrips, ...recurringBookings];
     if (reviewableEntries.length > 0) {
       const rideIds = reviewableEntries.map(e => e.ride._id);
@@ -670,12 +760,17 @@ router.get('/my-bookings', auth, requireRole('partner'), async (req, res, next) 
       });
     }
 
+=======
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
     res.json({ upcomingRides, recurringBookings, completedTrips, cancelledTrips });
   } catch (err) {
     next(err);
   }
 });
 
+<<<<<<< HEAD
 router._internal = { dateKey, weekdayOf, occursOn, effectiveDeparture, serializeRide, validateRideInput };
 
+=======
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
 module.exports = router;

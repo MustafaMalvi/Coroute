@@ -3,7 +3,10 @@ import api from '../api';
 import { toast } from 'react-toastify';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+<<<<<<< HEAD
 import StarRating from './StarRating';
+=======
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
 
 const WEEKDAY_SHORT = { Monday: 'Mon', Tuesday: 'Tue', Wednesday: 'Wed', Thursday: 'Thu', Friday: 'Fri', Saturday: 'Sat', Sunday: 'Sun' };
 
@@ -148,6 +151,10 @@ const RideCard = ({ ride, onRideUpdate }) => {
           {ride.womenOnly && <span className="bg-rose-100 text-rose-500 border border-rose-200 text-[11px] px-2.5 py-0.5 rounded-full font-bold uppercase">🚺 Women Only</span>}
         </div>
 
+<<<<<<< HEAD
+=======
+        {/* Ride type indicator — one-time date vs recurring weekday chips */}
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
         <div className="mb-3">
           {isRecurring ? (
             <div className="flex flex-wrap items-center gap-2">
@@ -174,6 +181,7 @@ const RideCard = ({ ride, onRideUpdate }) => {
             {localSeats} / {totalSeats} seats
           </span>
           <span className="font-medium">Driver: {driverName}</span>
+<<<<<<< HEAD
           {typeof ride.creator?.rating === 'number' && (
             <span className="flex items-center gap-1">
               <StarRating value={ride.creator.rating} size="w-3.5 h-3.5" />
@@ -182,6 +190,8 @@ const RideCard = ({ ride, onRideUpdate }) => {
               </span>
             </span>
           )}
+=======
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
         </div>
 
         {(ride.vehicleModel || ride.vehicleNumber) && (

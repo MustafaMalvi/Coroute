@@ -3,6 +3,10 @@ import { Navigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { toast } from 'react-toastify';
 
+<<<<<<< HEAD
+=======
+// allowedRoles: optional array, e.g. ['host'] or ['host', 'partner']
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const { user } = useContext(AuthContext);
   const location = useLocation();

@@ -5,7 +5,10 @@ import api from '../api';
 import { toast } from 'react-toastify';
 import StatCard from './StatCard';
 import MiniBarChart from './MiniBarChart';
+<<<<<<< HEAD
 import { badge, heading, spinner, wrap } from '../styles/style';
+=======
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
 
 const EditRideRow = ({ ride, onCancel, onSaved }) => {
   const { user } = useContext(AuthContext);
@@ -73,7 +76,11 @@ const HostDashboard = () => {
       const res = await api.get('/api/rides/dashboard/stats', { headers: { Authorization: `Bearer ${user.token}` } });
       setStats(res.data);
     } catch (err) {
+<<<<<<< HEAD
       // stats endpoint failing shouldn't block the rest of the dashboard
+=======
+      // Non-critical
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
     }
   }, [user.token]);
 
@@ -96,7 +103,16 @@ const HostDashboard = () => {
 
   const now = new Date();
   const upcoming = rides.filter(r => new Date(r.departureTime) > now);
+<<<<<<< HEAD
   const totalPassengers = rides.reduce((sum, r) => sum + (r.passengers?.length || 0), 0);
+=======
+  const completed = rides.filter(r => new Date(r.departureTime) <= now);
+  const totalPassengers = rides.reduce((sum, r) => sum + (r.passengers?.length || 0), 0);
+  const today = new Date().toDateString();
+  const todaysEarnings = rides
+    .filter(r => new Date(r.departureTime).toDateString() === today)
+    .reduce((sum, r) => sum + (r.passengers?.length || 0) * (r.pricePerSeat || 0), 0);
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
 
   const last7Days = Array.from({ length: 7 }).map((_, i) => {
     const d = new Date();
@@ -106,7 +122,11 @@ const HostDashboard = () => {
   });
 
   if (loading) {
+<<<<<<< HEAD
     return <div className={wrap.loadingRow}><div className={spinner}></div></div>;
+=======
+    return <div className="flex justify-center py-20"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-route-500"></div></div>;
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
   }
 
   return (
@@ -162,10 +182,17 @@ const HostDashboard = () => {
                 <div key={ride._id} className="bg-white border border-ink/10 rounded-2xl shadow-sm overflow-hidden">
                   <div className="p-5 border-b border-ink/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div>
+<<<<<<< HEAD
                       <h4 className={heading.card}>
                         {ride.pickupLocation} <span className="text-ink/30 font-normal mx-1">&rarr;</span> {ride.dropoffLocation}
                       </h4>
                       <p className={heading.helper}>{new Date(ride.departureTime).toLocaleString()}</p>
+=======
+                      <h4 className="font-display text-base">
+                        {ride.pickupLocation} <span className="text-ink/30 font-normal mx-1">&rarr;</span> {ride.dropoffLocation}
+                      </h4>
+                      <p className="text-sm text-ink-600 mt-1 font-meter">{new Date(ride.departureTime).toLocaleString()}</p>
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
                     </div>
                     <div className="flex flex-wrap items-center gap-2">
                       <span className="bg-ink/5 text-ink-600 text-xs font-bold px-3 py-1 rounded-full">{ride.availableSeats} seats left</span>
@@ -177,11 +204,19 @@ const HostDashboard = () => {
                         {ride.status === 'Full' ? 'Full' : isFuture ? 'Active' : 'Past'}
                       </span>
                       {isFuture && ride.passengers?.length === 0 && (
+<<<<<<< HEAD
                         <button onClick={() => setEditingId(editingId === ride._id ? null : ride._id)} className={badge.route}>
                           Edit
                         </button>
                       )}
                       <button onClick={() => handleDelete(ride._id)} className={badge.danger}>
+=======
+                        <button onClick={() => setEditingId(editingId === ride._id ? null : ride._id)} className="text-xs font-bold text-route-600 bg-route-50 px-3 py-1.5 rounded-lg hover:bg-route-100 transition-colors">
+                          Edit
+                        </button>
+                      )}
+                      <button onClick={() => handleDelete(ride._id)} className="text-xs font-bold text-alert-500 bg-alert-50 px-3 py-1.5 rounded-lg hover:bg-alert-400/10 transition-colors">
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
                         Delete
                       </button>
                     </div>

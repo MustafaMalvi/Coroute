@@ -16,6 +16,10 @@ body {
   @apply bg-paper text-ink font-body antialiased;
 }
 
+<<<<<<< HEAD
+=======
+/* Visible keyboard focus everywhere, always */
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
 :focus-visible {
   outline: 2px solid theme('colors.route.500');
   outline-offset: 2px;
@@ -30,6 +34,10 @@ body {
   }
 }
 
+<<<<<<< HEAD
+=======
+/* ---- Ticket-stub primitive: the app's signature card shape ---- */
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
 .ride-ticket {
   position: relative;
   isolation: isolate;
@@ -54,10 +62,18 @@ body {
   border-left: 2px dashed rgba(22, 23, 26, 0.15);
 }
 
+<<<<<<< HEAD
+=======
+/* Meter-style number display (fare / seat counters) */
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
 .meter-chip {
   @apply font-meter bg-ink text-marigold-500 rounded-lg tracking-wider;
 }
 
+<<<<<<< HEAD
+=======
+/* Diagonal ticket-paper texture for hero / dark sections */
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
 .livery-bg {
   background-color: #16171A;
   background-image:
@@ -77,6 +93,10 @@ body {
   50% { opacity: 1; transform: scale(1.08); }
 }
 
+<<<<<<< HEAD
+=======
+/* Custom live-location marker used by the Mapbox tracking view */
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
 .mapbox-live-marker {
   position: relative;
   width: 18px;
@@ -98,6 +118,7 @@ body {
   opacity: 0.35;
   animation: pulse 2s ease-in-out infinite;
 }
+<<<<<<< HEAD
 .mapbox-live-marker--other .mapbox-live-marker-dot {
   background: #F5AE0E;
 }
@@ -118,4 +139,8 @@ body {
   border-radius: 6px;
 }
 
+=======
+
+/* Keep Mapbox's own popup/attribution readable against our palette */
+>>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
 .mapboxgl-ctrl-attrib { font-size: 10px; }
