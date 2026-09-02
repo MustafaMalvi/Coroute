@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Karla:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=IBM+Plex+Mono:wght@500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-paper text-ink font-body antialiased;
+}
+
+:focus-visible {
+  outline: 2px solid theme('colors.route.500');
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.ride-ticket {
+  position: relative;
+  isolation: isolate;
+}
+.ride-ticket::before,
+.ride-ticket::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 22px;
+  height: 22px;
+  border-radius: 9999px;
+  background: var(--notch-color, #FBF6EA);
+  box-shadow: inset 0 1px 3px rgba(22, 23, 26, 0.18);
+  z-index: 1;
+}
+.ride-ticket::before { left: -11px; }
+.ride-ticket::after { right: -11px; }
+
+.ride-ticket .ride-ticket-perforation {
+  border-left: 2px dashed rgba(22, 23, 26, 0.15);
+}
+
+.meter-chip {
+  @apply font-meter bg-ink text-marigold-500 rounded-lg tracking-wider;
+}
+
+.livery-bg {
+  background-color: #16171A;
+  background-image:
+    repeating-linear-gradient(-45deg, rgba(255,194,46,0.07) 0, rgba(255,194,46,0.07) 2px, transparent 2px, transparent 16px);
+}
+
+.scrollbar-thin::-webkit-scrollbar { width: 6px; height: 6px; }
+.scrollbar-thin::-webkit-scrollbar-thumb { background: rgba(22,23,26,0.2); border-radius: 9999px; }
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-18px) rotate(6deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.08); }
+}
+
+.mapbox-live-marker {
+  position: relative;
+  width: 18px;
+  height: 18px;
+}
+.mapbox-live-marker-dot {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: #1B8F7A;
+  border: 2px solid #FBF6EA;
+  box-shadow: 0 1px 4px rgba(22, 23, 26, 0.35);
+}
+.mapbox-live-marker-ping {
+  position: absolute;
+  inset: -6px;
+  border-radius: 9999px;
+  background: #1B8F7A;
+  opacity: 0.35;
+  animation: pulse 2s ease-in-out infinite;
+}
+.mapbox-live-marker--other .mapbox-live-marker-dot {
+  background: #F5AE0E;
+}
+.mapbox-live-marker--other .mapbox-live-marker-ping {
+  background: #F5AE0E;
+}
+.mapbox-live-marker-label {
+  position: absolute;
+  top: -26px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  background: #16171A;
+  color: #F5AE0E;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+
+.mapboxgl-ctrl-attrib { font-size: 10px; }
