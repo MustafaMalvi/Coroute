@@ -4,10 +4,7 @@ import { fetchLocationSuggestions } from '../utils/mapboxSearch';
 const DEBOUNCE_MS = 300;
 const MIN_QUERY_LENGTH = 2;
 
-<<<<<<< HEAD
-=======
 // Wraps the portion of `text` that matches `query` in a highlighted span.
->>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
 const HighlightedLabel = ({ text, query }) => {
   if (!query) return <>{text}</>;
 
@@ -33,8 +30,6 @@ const HighlightedLabel = ({ text, query }) => {
 const newSessionToken = () =>
   (typeof crypto !== 'undefined' && crypto.randomUUID) ? crypto.randomUUID() : `${Date.now()}-${Math.random()}`;
 
-<<<<<<< HEAD
-=======
 /**
  * LocationAutocomplete
  *
@@ -48,7 +43,6 @@ const newSessionToken = () =>
  * - required: boolean
  * - inputBgClass: tailwind bg-* class for the input surface (defaults to white)
  */
->>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
 const LocationAutocomplete = ({
   value,
   onChange,
@@ -108,10 +102,7 @@ const LocationAutocomplete = ({
     };
   }, []);
 
-<<<<<<< HEAD
-=======
   // Close the dropdown on any click outside the component.
->>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (wrapperRef.current && !wrapperRef.current.contains(e.target)) {
@@ -132,10 +123,7 @@ const LocationAutocomplete = ({
     setIsOpen(false);
     setActiveIndex(-1);
     setSuggestions([]);
-<<<<<<< HEAD
-=======
     // Start a fresh billing session for the next search, per Mapbox guidance.
->>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
     sessionTokenRef.current = newSessionToken();
   };
 
@@ -163,10 +151,7 @@ const LocationAutocomplete = ({
     }
   };
 
-<<<<<<< HEAD
-=======
   // Keep the highlighted option scrolled into view during keyboard navigation.
->>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
   useEffect(() => {
     if (activeIndex < 0 || !listRef.current) return;
     const activeEl = listRef.current.children[activeIndex];
@@ -225,10 +210,7 @@ const LocationAutocomplete = ({
             <li key={suggestion.id} role="option" aria-selected={index === activeIndex}>
               <button
                 type="button"
-<<<<<<< HEAD
-=======
                 // onMouseDown (not onClick) so the click registers before the input's outside-click logic fires
->>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
                 onMouseDown={(e) => {
                   e.preventDefault();
                   selectSuggestion(suggestion);

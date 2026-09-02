@@ -1,9 +1,6 @@
 import { createContext, useState, useEffect } from 'react';
 
-<<<<<<< HEAD
-=======
 // eslint-disable-next-line react-refresh/only-export-components
->>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
 export const AuthContext = createContext(null);
 
 const readStoredUser = () => {
@@ -22,10 +19,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(readStoredUser);
 
   useEffect(() => {
-<<<<<<< HEAD
-=======
     // Keep state in sync if token is cleared/set from another tab
->>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
     const onStorage = () => setUser(readStoredUser());
     window.addEventListener('storage', onStorage);
     return () => window.removeEventListener('storage', onStorage);

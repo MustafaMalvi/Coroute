@@ -15,7 +15,8 @@ export const comman = {
     heading : "font-display text-xl mb-1 flex items-center gap-2",
     subh : "text-ink-600 text-sm mb-4"
 }
-<<<<<<< HEAD
+// grabbed these from counting repeats across the dashboard/profile/booking pages -
+// anything that showed up 3+ times verbatim moved here, one-off combos stayed inline
 export const field = {
     label : "block text-xs font-bold uppercase tracking-wide text-ink-600 mb-1.5",
     labelSpaced : "block text-xs font-bold uppercase tracking-wide text-ink-600 mb-1.5 mt-4",
@@ -43,8 +44,3 @@ export const wrap = {
 }
 
 export const spinner = "animate-spin rounded-full h-8 w-8 border-b-2 border-route-500"
-=======
-export const findride = {
-
-}
->>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9

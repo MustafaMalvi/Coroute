@@ -1,163 +1,92 @@
-<<<<<<< HEAD
-import { useState, useEffect, useContext } from 'react';
-=======
 import { useState, useEffect, useContext, useCallback } from 'react';
->>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import api from '../api';
 import { toast } from 'react-toastify';
-<<<<<<< HEAD
 import { badge, heading, spinner, wrap } from '../styles/style';
 import StarRating from '../components/StarRating';
 
-const WEEKDAYS = {
-  Monday: 'Mon',
-  Tuesday: 'Tue',
-  Wednesday: 'Wed',
-  Thursday: 'Thu',
-  Friday: 'Fri',
-  Saturday: 'Sat',
-  Sunday: 'Sun'
-};
-
-=======
-
 const WEEKDAY_SHORT = { Monday: 'Mon', Tuesday: 'Tue', Wednesday: 'Wed', Thursday: 'Thu', Friday: 'Fri', Saturday: 'Sat', Sunday: 'Sun' };
->>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
+
+// Local YYYY-MM-DD, matching the backend's dateKey() so skipDates line up.
+const dateKey = (d) => {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+};
 const TABS = [
   { key: 'upcomingRides', label: 'Upcoming Rides' },
   { key: 'recurringBookings', label: 'Recurring Bookings' },
   { key: 'completedTrips', label: 'Completed Trips' },
-<<<<<<< HEAD
-  { key: 'cancelledTrips', label: 'Cancelled Trips' }
+  { key: 'cancelledTrips', label: 'Cancelled Trips' },
 ];
-
-const getDateKey = date => {
-  const y = date.getFullYear();
-  const m = String(date.getMonth() + 1).padStart(2, '0');
-  const d = String(date.getDate()).padStart(2, '0');
-
-  return `${y}-${m}-${d}`;
-};
 
 const HostReview = ({ rideId, driverName, existing, onSaved }) => {
   const { user } = useContext(AuthContext);
-
-  const [edit, setEdit] = useState(false);
+  const [editing, setEditing] = useState(false);
   const [rating, setRating] = useState(existing?.rating || 0);
   const [comment, setComment] = useState(existing?.comment || '');
-  const [saving, setSaving] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
-  const submitReview = async () => {
+  if (!editing && existing) {
+    return (
+      <div className="mt-3 pt-3 border-t border-ink/10">
+        <div className="flex items-center gap-2">
+          <StarRating value={existing.rating} size="w-3.5 h-3.5" />
+          <button onClick={() => setEditing(true)} className="text-xs font-bold text-ink/40 hover:text-ink/60 transition-colors">Edit review</button>
+        </div>
+        {existing.comment && <p className="text-xs text-ink-600 mt-1 italic">"{existing.comment}"</p>}
+      </div>
+    );
+  }
+
+  if (!editing) {
+    return (
+      <div className="mt-3 pt-3 border-t border-ink/10">
+        <button onClick={() => setEditing(true)} className={badge.route}>Rate {driverName}</button>
+      </div>
+    );
+  }
+
+  const submit = async () => {
     if (rating < 1) {
       toast.error('Pick a star rating first.');
       return;
     }
-
     try {
-      setSaving(true);
-
-      const res = await api.post(
-        '/api/reviews',
-        {
-          rideId,
-          rating,
-          comment
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${user.token}`
-          }
-        }
-      );
-
+      setSubmitting(true);
+      const res = await api.post('/api/reviews', { rideId, rating, comment }, {
+        headers: { Authorization: `Bearer ${user.token}` }
+      });
       toast.success(res.data.message || 'Review saved.');
-      setEdit(false);
+      setEditing(false);
       onSaved(res.data.review);
     } catch (err) {
-      toast.error(
-        err.response?.data?.message || 'Could not save your review.'
-      );
+      toast.error(err.response?.data?.message || 'Could not save your review.');
     } finally {
-      setSaving(false);
+      setSubmitting(false);
     }
   };
 
-  if (!edit && existing) {
-    return (
-      <div className="mt-3 pt-3 border-t border-ink/10">
-        <div className="flex items-center gap-2">
-          <StarRating
-            value={existing.rating}
-            size="w-3.5 h-3.5"
-          />
-
-          <button
-            onClick={() => setEdit(true)}
-            className="text-xs font-bold text-ink/40 hover:text-ink/60 transition-colors"
-          >
-            Edit review
-          </button>
-        </div>
-
-        {existing.comment && (
-          <p className="text-xs text-ink-600 mt-1 italic">
-            "{existing.comment}"
-          </p>
-        )}
-      </div>
-    );
-  }
-
-  if (!edit) {
-    return (
-      <div className="mt-3 pt-3 border-t border-ink/10">
-        <button
-          onClick={() => setEdit(true)}
-          className={badge.route}
-        >
-          Rate {driverName}
-        </button>
-      </div>
-    );
-  }
-
   return (
     <div className="mt-3 pt-3 border-t border-ink/10 bg-paper/60 -mx-5 -mb-5 px-5 py-4 rounded-b-2xl">
-      <p className="text-xs font-bold text-ink-600 mb-2">
-        How was your ride with {driverName}?
-      </p>
-
-      <StarRating
-        value={rating}
-        onChange={setRating}
-        size="w-6 h-6"
-      />
-
+      <p className="text-xs font-bold text-ink-600 mb-2">How was your ride with {driverName}?</p>
+      <StarRating value={rating} onChange={setRating} size="w-6 h-6" />
       <textarea
         value={comment}
-        onChange={e => setComment(e.target.value.slice(0, 300))}
+        onChange={(e) => setComment(e.target.value.slice(0, 300))}
         rows={2}
         maxLength={300}
         placeholder="Leave a comment (optional)"
         className="w-full mt-2 py-2 px-3 bg-white border border-ink/15 rounded-lg text-sm focus:ring-2 focus:ring-route-500 focus:border-route-500 outline-none transition-all resize-none"
       />
-
       <div className="flex gap-2 mt-2">
-        <button
-          onClick={submitReview}
-          disabled={saving}
-          className="bg-ink text-marigold-500 text-xs font-bold px-4 py-2 rounded-lg hover:bg-ink-700 transition-colors disabled:opacity-50"
-        >
-          {saving ? 'Saving...' : 'Submit review'}
+        <button onClick={submit} disabled={submitting} className="bg-ink text-marigold-500 text-xs font-bold px-4 py-2 rounded-lg hover:bg-ink-700 transition-colors disabled:opacity-50">
+          {submitting ? 'Saving...' : 'Submit review'}
         </button>
-
         {existing && (
-          <button
-            onClick={() => setEdit(false)}
-            className="text-xs font-bold px-4 py-2 rounded-lg text-ink/50 hover:bg-ink/5 transition-colors"
-          >
+          <button onClick={() => setEditing(false)} className="text-xs font-bold px-4 py-2 rounded-lg text-ink/50 hover:bg-ink/5 transition-colors">
             Cancel
           </button>
         )}
@@ -166,75 +95,23 @@ const HostReview = ({ rideId, driverName, existing, onSaved }) => {
   );
 };
 
-const BookingRow = ({
-  entry,
-  onChanged,
-  reviewable,
-  trackable
-}) => {
-  const { user } = useContext(AuthContext);
-  const navigate = useNavigate();
-
-  const [busy, setBusy] = useState(false);
-  const [review, setReview] = useState(entry.review || null);
-
-  const { ride, booking } = entry;
-
-  const auth = {
-    headers: {
-      Authorization: `Bearer ${user.token}`
-    }
-  };
-
-  const recurring = booking.bookingType === 'recurring';
-  const driver = ride.creator;
-  const driverName = driver?.name || 'Driver';
-  const phone = driver?.phoneNumber;
-
-  const today = new Date();
-  const tomorrow = new Date(today);
-  tomorrow.setDate(tomorrow.getDate() + 1);
-
-  const todayKey = getDateKey(today);
-  const tomorrowKey = getDateKey(tomorrow);
-
-  const skippedToday =
-    recurring && ride.skipDates?.includes(todayKey);
-
-  const skippedTomorrow =
-    recurring &&
-    !skippedToday &&
-    ride.skipDates?.includes(tomorrowKey);
-
-  const paused =
-    recurring &&
-    (ride.isPaused || ride.status === 'Paused');
-
-  const runAction = async (action, msg) => {
-    try {
-      setBusy(true);
-
-      const res = await action();
-
-      toast.success(res.data.message || msg);
-      onChanged();
-    } catch (err) {
-      toast.error(
-        err.response?.data?.message || 'Action failed.'
-      );
-=======
-  { key: 'cancelledTrips', label: 'Cancelled Trips' },
-];
-
-const BookingRow = ({ entry, onChanged }) => {
+const BookingRow = ({ entry, onChanged, reviewable, trackable }) => {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const authHeader = { Authorization: `Bearer ${user.token}` };
   const [busy, setBusy] = useState(false);
+  const [review, setReview] = useState(entry.review || null);
   const { ride, booking } = entry;
   const isRecurring = booking.bookingType === 'recurring';
   const driverPhone = ride.creator?.phoneNumber;
   const driverName = ride.creator?.name || 'Driver';
+
+  const todayKey = dateKey(new Date());
+  const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1);
+  const tomorrowKey = dateKey(tomorrow);
+  const hostSkippedToday = isRecurring && ride.skipDates?.includes(todayKey);
+  const hostSkippedTomorrow = isRecurring && !hostSkippedToday && ride.skipDates?.includes(tomorrowKey);
+  const hostPaused = isRecurring && (ride.isPaused || ride.status === 'Paused');
 
   const call = async (fn, successMsg) => {
     try {
@@ -244,268 +121,11 @@ const BookingRow = ({ entry, onChanged }) => {
       onChanged();
     } catch (err) {
       toast.error(err.response?.data?.message || 'Action failed.');
->>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
     } finally {
       setBusy(false);
     }
   };
 
-<<<<<<< HEAD
-  const cancelToday = () => {
-    runAction(
-      () =>
-        api.post(
-          `/api/rides/${ride._id}/cancel`,
-          { scope: 'today' },
-          auth
-        ),
-      "Today's ride cancelled."
-    );
-  };
-
-  const cancelFuture = () => {
-    if (
-      !window.confirm(
-        'Cancel all future bookings for this recurring ride?'
-      )
-    ) {
-      return;
-    }
-
-    runAction(
-      () =>
-        api.post(
-          `/api/rides/${ride._id}/cancel`,
-          { scope: 'all' },
-          auth
-        ),
-      'Future bookings cancelled.'
-    );
-  };
-
-  const cancelSingle = () => {
-    if (!window.confirm('Cancel this booking?')) {
-      return;
-    }
-
-    runAction(
-      () =>
-        api.post(
-          `/api/rides/${ride._id}/cancel`,
-          { scope: 'all' },
-          auth
-        ),
-      'Booking cancelled.'
-    );
-  };
-
-  const pause = () => {
-    runAction(
-      () =>
-        api.patch(
-          `/api/rides/${ride._id}/booking/pause`,
-          {},
-          auth
-        ),
-      'Booking paused.'
-    );
-  };
-
-  const resume = () => {
-    runAction(
-      () =>
-        api.patch(
-          `/api/rides/${ride._id}/booking/resume`,
-          {},
-          auth
-        ),
-      'Booking resumed.'
-    );
-  };
-
-  return (
-    <div className="bg-white border border-ink/10 rounded-2xl shadow-sm p-5">
-
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-
-        <div>
-          <div className="flex items-center gap-2 mb-1">
-
-            {recurring ? (
-              <span className="text-[11px] font-bold text-route-600 bg-route-50 border border-route-100 px-2.5 py-0.5 rounded-full">
-                Recurring
-              </span>
-            ) : (
-              <span className="text-[11px] font-bold text-marigold-600 bg-marigold-500/10 border border-marigold-500/20 px-2.5 py-0.5 rounded-full">
-                One-Time
-              </span>
-            )}
-
-            {booking.bookingStatus === 'paused' && (
-              <span className="text-[11px] font-bold text-ink/50 bg-ink/5 px-2.5 py-0.5 rounded-full">
-                Paused
-              </span>
-            )}
-
-            {booking.bookingStatus === 'cancelled' && (
-              <span className="text-[11px] font-bold text-alert-500 bg-alert-50 px-2.5 py-0.5 rounded-full">
-                Cancelled
-              </span>
-            )}
-
-          </div>
-
-          <h4 className={heading.card}>
-            {ride.pickupLocation}
-
-            <span className="text-ink/30 font-normal mx-1">
-              to
-            </span>
-
-            {ride.dropoffLocation}
-          </h4>
-
-          <p className={heading.helper}>
-            {recurring
-              ? `Every ${ride.repeatDays
-                  ?.map(day => WEEKDAYS[day] || day)
-                  .join(' · ')} · ${new Date(
-                  ride.nextDeparture || ride.departureTime
-                ).toLocaleTimeString([], {
-                  hour: '2-digit',
-                  minute: '2-digit'
-                })}`
-              : new Date(
-                  ride.departureTime
-                ).toLocaleString()}
-
-            {' · ₹'}
-            {ride.pricePerSeat}
-          </p>
-
-          <p className="text-xs text-ink-600 mt-1">
-            Driver: {driverName}
-          </p>
-
-          {paused && (
-            <p className="text-xs font-bold text-ink/50 bg-ink/5 inline-block px-2.5 py-1 rounded-lg mt-2">
-              Host has paused this ride until further notice.
-            </p>
-          )}
-
-          {!paused && skippedToday && (
-            <p className="text-xs font-bold text-alert-500 bg-alert-50 inline-block px-2.5 py-1 rounded-lg mt-2">
-              Host cancelled today's ride. Tomorrow continues as scheduled.
-            </p>
-          )}
-
-          {!paused && skippedTomorrow && (
-            <p className="text-xs font-bold text-alert-500 bg-alert-50 inline-block px-2.5 py-1 rounded-lg mt-2">
-              Host cancelled tomorrow's ride.
-            </p>
-          )}
-        </div>
-
-        <div className="flex flex-wrap items-center gap-2">
-
-          {phone && (
-            <a
-              href={`tel:${phone}`}
-              className={badge.route}
-            >
-              Call
-            </a>
-          )}
-
-          {driver?._id && (
-            <button
-              onClick={() =>
-                navigate(`/chat/${driver._id}`, {
-                  state: {
-                    partnerName: driverName
-                  }
-                })
-              }
-              className="text-xs font-bold text-ink bg-ink/5 px-3 py-1.5 rounded-lg hover:bg-ink/10 transition-colors"
-            >
-              Message
-            </button>
-          )}
-
-          {trackable && (
-            <button
-              onClick={() =>
-                navigate(`/track-ride/${ride._id}`)
-              }
-              className="text-xs font-bold text-route-600 bg-route-50 px-3 py-1.5 rounded-lg hover:bg-route-100 transition-colors"
-            >
-              Track
-            </button>
-          )}
-
-          {booking.bookingStatus !== 'cancelled' && (
-            recurring ? (
-              <>
-                <button
-                  disabled={busy}
-                  onClick={cancelToday}
-                  className={badge.danger}
-                >
-                  Cancel Today's Ride
-                </button>
-
-                <button
-                  disabled={busy}
-                  onClick={cancelFuture}
-                  className={badge.danger}
-                >
-                  Cancel Future Bookings
-                </button>
-
-                {booking.bookingStatus === 'paused' ? (
-                  <button
-                    disabled={busy}
-                    onClick={resume}
-                    className={badge.route}
-                  >
-                    Resume Booking
-                  </button>
-                ) : (
-                  <button
-                    disabled={busy}
-                    onClick={pause}
-                    className="text-xs font-bold text-ink bg-ink/5 px-3 py-1.5 rounded-lg hover:bg-ink/10 transition-colors"
-                  >
-                    Pause Booking
-                  </button>
-                )}
-              </>
-            ) : (
-              new Date(ride.departureTime) > new Date() && (
-                <button
-                  disabled={busy}
-                  onClick={cancelSingle}
-                  className={badge.danger}
-                >
-                  Cancel
-                </button>
-              )
-            )
-          )}
-
-        </div>
-      </div>
-
-      {reviewable && driver?._id && (
-        <HostReview
-          rideId={ride._id}
-          driverName={driverName}
-          existing={review}
-          onSaved={setReview}
-        />
-      )}
-
-=======
   const cancelToday = () => call(() => api.post(`/api/rides/${ride._id}/cancel`, { scope: 'today' }, { headers: authHeader }), "Today's ride cancelled.");
   const cancelFuture = () => {
     if (!window.confirm('Cancel all future bookings for this recurring ride?')) return;
@@ -519,54 +139,76 @@ const BookingRow = ({ entry, onChanged }) => {
   const resumeBooking = () => call(() => api.patch(`/api/rides/${ride._id}/booking/resume`, {}, { headers: authHeader }), 'Booking resumed.');
 
   return (
-    <div className="bg-white border border-ink/10 rounded-2xl shadow-sm p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-      <div>
-        <div className="flex items-center gap-2 mb-1">
-          {isRecurring ? (
-            <span className="text-[11px] font-bold text-route-600 bg-route-50 border border-route-100 px-2.5 py-0.5 rounded-full">🔁 Recurring</span>
-          ) : (
-            <span className="text-[11px] font-bold text-marigold-600 bg-marigold-500/10 border border-marigold-500/20 px-2.5 py-0.5 rounded-full">📅 One-Time</span>
+    <div className="bg-white border border-ink/10 rounded-2xl shadow-sm p-5">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <div className="flex items-center gap-2 mb-1">
+            {isRecurring ? (
+              <span className="text-[11px] font-bold text-route-600 bg-route-50 border border-route-100 px-2.5 py-0.5 rounded-full">🔁 Recurring</span>
+            ) : (
+              <span className="text-[11px] font-bold text-marigold-600 bg-marigold-500/10 border border-marigold-500/20 px-2.5 py-0.5 rounded-full">📅 One-Time</span>
+            )}
+            {booking.bookingStatus === 'paused' && <span className="text-[11px] font-bold text-ink/50 bg-ink/5 px-2.5 py-0.5 rounded-full">Paused</span>}
+            {booking.bookingStatus === 'cancelled' && <span className="text-[11px] font-bold text-alert-500 bg-alert-50 px-2.5 py-0.5 rounded-full">Cancelled</span>}
+          </div>
+          <h4 className={heading.card}>{ride.pickupLocation} <span className="text-ink/30 font-normal mx-1">&rarr;</span> {ride.dropoffLocation}</h4>
+          <p className={heading.helper}>
+            {isRecurring
+              ? `Every ${ride.repeatDays?.map(d => WEEKDAY_SHORT[d] || d).join(' • ')} · ${new Date(ride.nextDeparture || ride.departureTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`
+              : new Date(ride.departureTime).toLocaleString()}
+            {' '}&middot; ₹{ride.pricePerSeat}
+          </p>
+          <p className="text-xs text-ink-600 mt-1">Driver: {driverName}</p>
+          {hostPaused && (
+            <p className="text-xs font-bold text-ink/50 bg-ink/5 inline-block px-2.5 py-1 rounded-lg mt-2">⏸ Host has paused this ride until further notice.</p>
           )}
-          {booking.bookingStatus === 'paused' && <span className="text-[11px] font-bold text-ink/50 bg-ink/5 px-2.5 py-0.5 rounded-full">Paused</span>}
-          {booking.bookingStatus === 'cancelled' && <span className="text-[11px] font-bold text-alert-500 bg-alert-50 px-2.5 py-0.5 rounded-full">Cancelled</span>}
+          {!hostPaused && hostSkippedToday && (
+            <p className="text-xs font-bold text-alert-500 bg-alert-50 inline-block px-2.5 py-1 rounded-lg mt-2">🚫 Host cancelled today's ride. Tomorrow continues as scheduled.</p>
+          )}
+          {!hostPaused && hostSkippedTomorrow && (
+            <p className="text-xs font-bold text-alert-500 bg-alert-50 inline-block px-2.5 py-1 rounded-lg mt-2">🚫 Host cancelled tomorrow's ride.</p>
+          )}
         </div>
-        <h4 className="font-display text-base">{ride.pickupLocation} <span className="text-ink/30 font-normal mx-1">&rarr;</span> {ride.dropoffLocation}</h4>
-        <p className="text-sm text-ink-600 mt-1 font-meter">
-          {isRecurring
-            ? `Every ${ride.repeatDays?.map(d => WEEKDAY_SHORT[d] || d).join(' • ')} · ${new Date(ride.nextDeparture || ride.departureTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`
-            : new Date(ride.departureTime).toLocaleString()}
-          {' '}&middot; ₹{ride.pricePerSeat}
-        </p>
-        <p className="text-xs text-ink-600 mt-1">Driver: {driverName}</p>
-      </div>
 
-      <div className="flex flex-wrap items-center gap-2">
-        {driverPhone && (
-          <a href={`tel:${driverPhone}`} className="text-xs font-bold text-route-600 bg-route-50 px-3 py-1.5 rounded-lg hover:bg-route-100 transition-colors">Call</a>
-        )}
-        {ride.creator?._id && (
-          <button onClick={() => navigate(`/chat/${ride.creator._id}`, { state: { partnerName: driverName } })} className="text-xs font-bold text-ink bg-ink/5 px-3 py-1.5 rounded-lg hover:bg-ink/10 transition-colors">Message</button>
-        )}
+        <div className="flex flex-wrap items-center gap-2">
+          {driverPhone && (
+            <a href={`tel:${driverPhone}`} className={badge.route}>Call</a>
+          )}
+          {ride.creator?._id && (
+            <button onClick={() => navigate(`/chat/${ride.creator._id}`, { state: { partnerName: driverName } })} className="text-xs font-bold text-ink bg-ink/5 px-3 py-1.5 rounded-lg hover:bg-ink/10 transition-colors">Message</button>
+          )}
+          {trackable && (
+            <button onClick={() => navigate(`/track-ride/${ride._id}`)} className="text-xs font-bold text-route-600 bg-route-50 px-3 py-1.5 rounded-lg hover:bg-route-100 transition-colors">📍 Track</button>
+          )}
 
-        {booking.bookingStatus !== 'cancelled' && (
-          isRecurring ? (
-            <>
-              <button disabled={busy} onClick={cancelToday} className="text-xs font-bold text-alert-500 bg-alert-50 px-3 py-1.5 rounded-lg hover:bg-alert-400/10 transition-colors">Cancel Today's Ride</button>
-              <button disabled={busy} onClick={cancelFuture} className="text-xs font-bold text-alert-500 bg-alert-50 px-3 py-1.5 rounded-lg hover:bg-alert-400/10 transition-colors">Cancel Future Bookings</button>
-              {booking.bookingStatus === 'paused' ? (
-                <button disabled={busy} onClick={resumeBooking} className="text-xs font-bold text-route-600 bg-route-50 px-3 py-1.5 rounded-lg hover:bg-route-100 transition-colors">Resume Booking</button>
-              ) : (
-                <button disabled={busy} onClick={pauseBooking} className="text-xs font-bold text-ink bg-ink/5 px-3 py-1.5 rounded-lg hover:bg-ink/10 transition-colors">Pause Booking</button>
-              )}
-            </>
-          ) : (
-            new Date(ride.departureTime) > new Date() && (
-              <button disabled={busy} onClick={cancelSingle} className="text-xs font-bold text-alert-500 bg-alert-50 px-3 py-1.5 rounded-lg hover:bg-alert-400/10 transition-colors">Cancel</button>
+          {booking.bookingStatus !== 'cancelled' && (
+            isRecurring ? (
+              <>
+                <button disabled={busy} onClick={cancelToday} className={badge.danger}>Cancel Today's Ride</button>
+                <button disabled={busy} onClick={cancelFuture} className={badge.danger}>Cancel Future Bookings</button>
+                {booking.bookingStatus === 'paused' ? (
+                  <button disabled={busy} onClick={resumeBooking} className={badge.route}>Resume Booking</button>
+                ) : (
+                  <button disabled={busy} onClick={pauseBooking} className="text-xs font-bold text-ink bg-ink/5 px-3 py-1.5 rounded-lg hover:bg-ink/10 transition-colors">Pause Booking</button>
+                )}
+              </>
+            ) : (
+              new Date(ride.departureTime) > new Date() && (
+                <button disabled={busy} onClick={cancelSingle} className={badge.danger}>Cancel</button>
+              )
             )
-          )
-        )}
+          )}
+        </div>
       </div>
->>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
+
+      {reviewable && ride.creator?._id && (
+        <HostReview
+          rideId={ride._id}
+          driverName={driverName}
+          existing={review}
+          onSaved={setReview}
+        />
+      )}
     </div>
   );
 };
@@ -574,30 +216,6 @@ const BookingRow = ({ entry, onChanged }) => {
 const MyBookings = () => {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
-<<<<<<< HEAD
-
-  const [data, setData] = useState({
-    upcomingRides: [],
-    recurringBookings: [],
-    completedTrips: [],
-    cancelledTrips: []
-  });
-
-  const [loading, setLoading] = useState(true);
-  const [tab, setTab] = useState('upcomingRides');
-
-  const loadBookings = async () => {
-    try {
-      const res = await api.get(
-        '/api/rides/my-bookings',
-        {
-          headers: {
-            Authorization: `Bearer ${user.token}`
-          }
-        }
-      );
-
-=======
   const [data, setData] = useState({ upcomingRides: [], recurringBookings: [], completedTrips: [], cancelledTrips: [] });
   const [loading, setLoading] = useState(true);
   const [tab, setTab] = useState('upcomingRides');
@@ -605,119 +223,24 @@ const MyBookings = () => {
   const fetchBookings = useCallback(async () => {
     try {
       const res = await api.get('/api/rides/my-bookings', { headers: { Authorization: `Bearer ${user.token}` } });
->>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
       setData(res.data);
     } catch (err) {
       toast.error('Failed to load your bookings.');
     } finally {
       setLoading(false);
     }
-<<<<<<< HEAD
-  };
-
-  useEffect(() => {
-    loadBookings();
-  }, []);
-=======
   }, [user.token]);
 
   useEffect(() => { fetchBookings(); }, [fetchBookings]);
->>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
 
   const entries = data[tab] || [];
 
   return (
-<<<<<<< HEAD
     <div className={wrap.page}>
       <div className="max-w-5xl mx-auto">
-
-        <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
-
-          <div>
-            <span className={heading.eyebrowRoute}>
-              Ride Partner
-            </span>
-
-            <h1 className="font-display text-3xl mt-1">
-              My Bookings
-            </h1>
-          </div>
-
-          <button
-            onClick={() => navigate('/find-ride')}
-            className="bg-marigold-500 hover:bg-marigold-400 text-ink text-sm font-bold px-4 py-2.5 rounded-xl transition-all active:scale-95"
-          >
-            + Find a ride
-          </button>
-
-        </div>
-
-        <div className="flex flex-wrap gap-2 mb-6">
-
-          {TABS.map(item => (
-            <button
-              key={item.key}
-              onClick={() => setTab(item.key)}
-              className={`text-sm font-bold px-4 py-2 rounded-xl transition-all ${
-                tab === item.key
-                  ? 'bg-ink text-marigold-500'
-                  : 'bg-white border border-ink/10 text-ink-600 hover:border-ink/20'
-              }`}
-            >
-              {item.label}
-
-              <span className="opacity-60">
-                ({data[item.key]?.length || 0})
-              </span>
-            </button>
-          ))}
-
-        </div>
-
-        {loading ? (
-          <div className={wrap.loadingRow}>
-            <div className={spinner}></div>
-          </div>
-        ) : entries.length === 0 ? (
-          <div className="bg-white border border-dashed border-ink/15 rounded-xl p-12 text-center">
-            <p className="text-ink-600 font-medium">
-              Nothing here yet.
-            </p>
-          </div>
-        ) : (
-          <div className="space-y-4">
-
-            {entries.map(entry => (
-              <BookingRow
-                key={entry.booking._id}
-                entry={entry}
-                onChanged={loadBookings}
-                reviewable={
-                  tab === 'completedTrips' ||
-                  tab === 'recurringBookings'
-                }
-                trackable={
-                  entry.booking.bookingStatus !== 'cancelled' &&
-                  (
-                    tab === 'upcomingRides' ||
-                    (
-                      tab === 'recurringBookings' &&
-                      entry.ride.occursToday
-                    )
-                  )
-                }
-              />
-            ))}
-
-          </div>
-        )}
-
-=======
-    <div className="flex-1 bg-paper py-10 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-5xl mx-auto">
         <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
           <div>
-            <span className="font-meter text-xs tracking-[0.2em] uppercase text-route-500">Ride Partner</span>
+            <span className={heading.eyebrowRoute}>Ride Partner</span>
             <h1 className="font-display text-3xl mt-1">My Bookings</h1>
           </div>
           <button onClick={() => navigate('/find-ride')} className="bg-marigold-500 hover:bg-marigold-400 text-ink text-sm font-bold px-4 py-2.5 rounded-xl transition-all active:scale-95">
@@ -740,24 +263,30 @@ const MyBookings = () => {
         </div>
 
         {loading ? (
-          <div className="flex justify-center py-20"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-route-500"></div></div>
+          <div className={wrap.loadingRow}><div className={spinner}></div></div>
         ) : entries.length === 0 ? (
           <div className="bg-white border border-dashed border-ink/15 rounded-xl p-12 text-center">
             <p className="text-ink-600 font-medium">Nothing here yet.</p>
           </div>
         ) : (
           <div className="space-y-4">
-            {entries.map(entry => <BookingRow key={entry.booking._id} entry={entry} onChanged={fetchBookings} />)}
+            {entries.map(entry => (
+              <BookingRow
+                key={entry.booking._id}
+                entry={entry}
+                onChanged={fetchBookings}
+                reviewable={tab === 'completedTrips' || tab === 'recurringBookings'}
+                trackable={
+                  entry.booking.bookingStatus !== 'cancelled' &&
+                  (tab === 'upcomingRides' || (tab === 'recurringBookings' && entry.ride.occursToday))
+                }
+              />
+            ))}
           </div>
         )}
->>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
       </div>
     </div>
   );
 };
 
-<<<<<<< HEAD
 export default MyBookings;
-=======
-export default MyBookings;
->>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9

@@ -3,8 +3,6 @@ import { MAPBOX_TOKEN, DEFAULT_PROXIMITY } from '../mapboxConfig';
 const SUGGEST_URL = 'https://api.mapbox.com/search/searchbox/v1/suggest';
 const RETRIEVE_URL = 'https://api.mapbox.com/search/searchbox/v1/retrieve';
 
-<<<<<<< HEAD
-=======
 /**
  * Fetch place suggestions for the given query, biased around Rajkot.
  * Returns an array of { id, name, placeFormatted, fullLabel } — see
@@ -12,7 +10,6 @@ const RETRIEVE_URL = 'https://api.mapbox.com/search/searchbox/v1/retrieve';
  * (LocationAutocomplete) is responsible for catching and degrading
  * gracefully.
  */
->>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
 export async function fetchLocationSuggestions(query, sessionToken, { signal } = {}) {
   if (!query || query.trim().length < 2) return [];
 
@@ -35,13 +32,10 @@ export async function fetchLocationSuggestions(query, sessionToken, { signal } =
   return (data.suggestions || []).map(mapSuggestion);
 }
 
-<<<<<<< HEAD
-=======
 /**
  * Resolve a suggestion's mapbox_id into full details (coordinates, etc).
  * Only needed if you want lat/lng — plain text selection doesn't require it.
  */
->>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
 export async function retrieveLocationDetails(mapboxId, sessionToken, { signal } = {}) {
   const params = new URLSearchParams({
     access_token: MAPBOX_TOKEN,
@@ -59,11 +53,7 @@ export async function retrieveLocationDetails(mapboxId, sessionToken, { signal }
   return {
     name: feature.properties?.name || '',
     fullLabel: feature.properties?.full_address || feature.properties?.place_formatted || '',
-<<<<<<< HEAD
-    coordinates: feature.geometry?.coordinates || null, 
-=======
     coordinates: feature.geometry?.coordinates || null, // [lng, lat]
->>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
   };
 }
 
@@ -74,10 +64,7 @@ function mapSuggestion(s) {
     id: s.mapbox_id,
     name,
     placeFormatted,
-<<<<<<< HEAD
-=======
     // What we actually show/select — "Trikon Baug, Rajkot, Gujarat"
->>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
     fullLabel: placeFormatted ? `${name}, ${placeFormatted}` : name,
   };
 }

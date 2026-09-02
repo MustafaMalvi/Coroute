@@ -5,12 +5,16 @@ const Ride = require('../models/Ride');
 const Booking = require('../models/Booking');
 const RideLocation = require('../models/RideLocation');
 
+// anything older than this is treated as "no longer sharing"
 const STALE_MS = 2 * 60 * 1000;
 
+// works whether ride.creator is a raw ObjectId or a populated user doc
 function creatorId(ride) {
   return (ride.creator._id || ride.creator).toString();
 }
 
+// figures out whether the current user is allowed anywhere near this ride's
+// location data, and if so, in which capacity
 async function getRideRole(ride, userId) {
   if (creatorId(ride) === userId) return 'host';
   const booking = await Booking.findOne({
@@ -21,6 +25,7 @@ async function getRideRole(ride, userId) {
   return booking ? 'partner' : null;
 }
 
+// GET /api/location/:rideId — see who's currently sharing on this ride
 router.get('/:rideId', auth, async (req, res, next) => {
   try {
     const ride = await Ride.findById(req.params.rideId).populate('creator', 'name');
@@ -33,12 +38,14 @@ router.get('/:rideId', auth, async (req, res, next) => {
     let others;
 
     if (role === 'host') {
+      // the host gets everyone currently sharing — could be several partners
       others = await RideLocation.find({
         ride: ride._id,
         user: { $ne: req.user.userId },
         updatedAt: { $gte: cutoff }
       }).populate('user', 'name');
     } else {
+      // a partner only ever sees the host's pin
       const hostLoc = await RideLocation.findOne({
         ride: ride._id,
         user: ride.creator._id,
@@ -66,6 +73,7 @@ router.get('/:rideId', auth, async (req, res, next) => {
   }
 });
 
+// PUT /api/location/:rideId — push my current position
 router.put('/:rideId', auth, async (req, res, next) => {
   try {
     const { lat, lng, accuracy } = req.body;
@@ -91,6 +99,7 @@ router.put('/:rideId', auth, async (req, res, next) => {
   }
 });
 
+// DELETE /api/location/:rideId — stop sharing
 router.delete('/:rideId', auth, async (req, res, next) => {
   try {
     await RideLocation.deleteOne({ ride: req.params.rideId, user: req.user.userId });

@@ -33,10 +33,7 @@ const HeroSection = () => (
           </div>
         </div>
 
-<<<<<<< HEAD
-=======
         {/* Signature: a literal ride ticket, the app's core unit */}
->>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
         <div className="relative mx-auto w-full max-w-sm">
           <div
             className="ride-ticket bg-paper rounded-2xl shadow-ticket p-6 rotate-[-3deg] hover:rotate-0 transition-transform duration-300"

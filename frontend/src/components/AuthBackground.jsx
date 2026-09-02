@@ -1,30 +1,20 @@
 const AuthBackground = ({ children }) => {
   return (
     <div className="relative flex-1 flex items-center justify-center overflow-hidden bg-ink py-16 px-4 sm:px-6 lg:px-8">
-<<<<<<< HEAD
-      <div className="absolute inset-0 livery-bg"></div>
-
-=======
       {/* Livery texture base */}
       <div className="absolute inset-0 livery-bg"></div>
 
       {/* Animated gradient wash */}
->>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
       <div className="absolute inset-0 opacity-70">
         <div className="absolute -top-32 -left-24 w-[28rem] h-[28rem] bg-marigold-500/25 rounded-full blur-3xl animate-[pulse_6s_ease-in-out_infinite]"></div>
         <div className="absolute -bottom-40 -right-20 w-[32rem] h-[32rem] bg-route-500/25 rounded-full blur-3xl animate-[pulse_8s_ease-in-out_infinite]"></div>
         <div className="absolute top-1/3 right-1/4 w-72 h-72 bg-rose-400/10 rounded-full blur-3xl animate-[pulse_10s_ease-in-out_infinite]"></div>
       </div>
 
-<<<<<<< HEAD
-      <div className="absolute inset-0 bg-gradient-to-b from-ink/60 via-ink/70 to-ink/90"></div>
-
-=======
       {/* Dark overlay for legibility */}
       <div className="absolute inset-0 bg-gradient-to-b from-ink/60 via-ink/70 to-ink/90"></div>
 
       {/* Floating ride illustrations */}
->>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
       <div className="absolute inset-0 pointer-events-none hidden md:block">
         <svg className="absolute top-[12%] left-[10%] w-16 h-16 text-marigold-500/30 animate-[float_7s_ease-in-out_infinite]" fill="currentColor" viewBox="0 0 24 24">
           <path d="M3 13l1.5-4.5A2 2 0 016.4 7h11.2a2 2 0 011.9 1.5L21 13v6a1 1 0 01-1 1h-1a1 1 0 01-1-1v-1H6v1a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zm3.5-4L5 13h14l-1.5-4H6.5zM6 15a1 1 0 100 2 1 1 0 000-2zm12 0a1 1 0 100 2 1 1 0 000-2z" />

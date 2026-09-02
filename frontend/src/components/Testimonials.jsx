@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 import { heading, wrap } from '../styles/style';
-=======
->>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
 const TESTIMONIALS = [
   {
     name: 'Priya S.',
@@ -31,17 +28,10 @@ const TESTIMONIALS = [
 ];
 
 const Testimonials = () => (
-<<<<<<< HEAD
   <section className={wrap.section}>
     <div className="mb-12 max-w-xl">
       <span className={heading.eyebrowRoute}>Testimonials</span>
       <h2 className={heading.page}>What students are saying.</h2>
-=======
-  <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto w-full">
-    <div className="mb-12 max-w-xl">
-      <span className="font-meter text-xs tracking-[0.2em] uppercase text-route-500">Testimonials</span>
-      <h2 className="font-display text-3xl sm:text-4xl mt-2">What students are saying.</h2>
->>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
     </div>
 
     <div className="flex gap-5 overflow-x-auto pb-4 scrollbar-thin snap-x snap-mandatory -mx-4 px-4 sm:mx-0 sm:px-0">
@@ -70,8 +60,4 @@ const Testimonials = () => (
   </section>
 );
 
-<<<<<<< HEAD
 export default Testimonials;
-=======
-export default Testimonials;
->>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9

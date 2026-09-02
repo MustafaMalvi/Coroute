@@ -3,23 +3,12 @@ const mongoose = require('mongoose');
 const WEEKDAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
 const RideSchema = new mongoose.Schema({
-<<<<<<< HEAD
-=======
-  // ── Core ──
->>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
+  // core fields
   creator: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, // hostId
   pickupLocation: { type: String, required: true },
   dropoffLocation: { type: String, required: true },
 
-<<<<<<< HEAD
-  rideType: { type: String, enum: ['one-time', 'recurring'], default: 'one-time', required: true },
-
-  rideDate: { type: Date, default: null },
-
-  repeatDays: { type: [String], enum: WEEKDAYS, default: [] },
-
-=======
-  // ── Ride Type ──
+  // ride type
   rideType: { type: String, enum: ['one-time', 'recurring'], default: 'one-time', required: true },
 
   // One-Time Ride: a specific calendar date
@@ -31,7 +20,6 @@ const RideSchema = new mongoose.Schema({
   // Departure time. For one-time rides this is the full date+time of departure.
   // For recurring rides, only the time-of-day portion is meaningful — the ride
   // "occurs" at this clock time on every selected weekday.
->>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
   departureTime: { type: Date, required: true },
 
   availableSeats: { type: Number, default: 3 },
@@ -39,37 +27,25 @@ const RideSchema = new mongoose.Schema({
   pricePerSeat: { type: Number, required: true, default: 0 },
   notes: { type: String, default: '', maxlength: 300 },
 
-<<<<<<< HEAD
-=======
   // Open, Full, Completed, Cancelled (permanently), Paused (recurring only)
->>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
   status: { type: String, enum: ['Open', 'Full', 'Completed', 'Cancelled', 'Paused'], default: 'Open' },
 
   womenOnly: { type: Boolean, default: false },
 
-<<<<<<< HEAD
-  vehicleId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, 
-=======
-  // ── Vehicle info — auto-copied from the Host profile at creation time ──
+  // vehicle info, copied over from the host's profile when the ride is created
   vehicleId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, // points back to host (source of vehicle record)
->>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
   vehicleNumber: { type: String, default: '' },
   vehicleType: { type: String, default: '' },
   vehicleModel: { type: String, default: '' },
   vehicleColor: { type: String, default: '' },
 
-<<<<<<< HEAD
-  isPaused: { type: Boolean, default: false }, 
-  skipDates: { type: [String], default: [] },
-=======
-  // ── Recurring ride management ──
+  // recurring ride management
   isPaused: { type: Boolean, default: false }, // Pause / Resume whole schedule
   // Specific calendar dates (YYYY-MM-DD) skipped for a recurring ride,
   // e.g. "Cancel Today's Ride" / "Cancel Tomorrow's Ride"
   skipDates: { type: [String], default: [] },
   // Per-date time overrides for a recurring ride, e.g. "Reschedule Today's Ride"
   // Map of 'YYYY-MM-DD' -> 'HH:mm'
->>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
   dateOverrides: { type: Map, of: String, default: {} },
 
   passengers: [{

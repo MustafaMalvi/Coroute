@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 import { heading, wrap } from '../styles/style';
-=======
->>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
 const REASONS = [
   {
     title: 'Safe ride sharing',
@@ -31,17 +28,10 @@ const REASONS = [
 ];
 
 const WhyChoose = () => (
-<<<<<<< HEAD
   <section className={wrap.section}>
     <div className="mb-12 max-w-xl">
       <span className={heading.eyebrowRoute}>Why CoRoute</span>
       <h2 className={heading.page}>Built for how students actually commute.</h2>
-=======
-  <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto w-full">
-    <div className="mb-12 max-w-xl">
-      <span className="font-meter text-xs tracking-[0.2em] uppercase text-route-500">Why CoRoute</span>
-      <h2 className="font-display text-3xl sm:text-4xl mt-2">Built for how students actually commute.</h2>
->>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
     </div>
 
     <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -60,8 +50,4 @@ const WhyChoose = () => (
   </section>
 );
 
-<<<<<<< HEAD
 export default WhyChoose;
-=======
-export default WhyChoose;
->>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9

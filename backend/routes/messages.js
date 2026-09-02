@@ -4,19 +4,13 @@ const auth = require('../middleware/auth');
 const Message = require('../models/Message');
 const User = require('../models/User');
 
-<<<<<<< HEAD
-=======
 // POST /api/messages
 // Send a message to another user
->>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
 router.post('/', auth, async (req, res, next) => {
   try {
     const { receiverId, content } = req.body;
 
-<<<<<<< HEAD
-=======
-    // ── Input Validation ──
->>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
+    // validate input
     if (!receiverId || !content) {
       return res.status(400).json({ message: 'Receiver and message content are required.' });
     }
@@ -29,19 +23,12 @@ router.post('/', auth, async (req, res, next) => {
       return res.status(400).json({ message: 'Message is too long (max 1000 characters).' });
     }
 
-<<<<<<< HEAD
-    if (receiverId === req.user.userId) {
-      return res.status(400).json({ message: 'You cannot send a message to yourself.' });
-    }
-
-=======
     // Prevent messaging yourself
     if (receiverId === req.user.userId) {
       return res.status(400).json({ message: 'You cannot send a message to yourself.' });
     }
-    
+
     // Validate receiver exists
->>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
     const receiver = await User.findById(receiverId);
     if (!receiver) {
       return res.status(404).json({ message: 'User not found' });
@@ -61,46 +48,30 @@ router.post('/', auth, async (req, res, next) => {
   }
 });
 
-<<<<<<< HEAD
-=======
 // GET /api/messages/:partnerId
 // Get conversation history with a specific user
->>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
 router.get('/:partnerId', auth, async (req, res, next) => {
   try {
     const { partnerId } = req.params;
 
-<<<<<<< HEAD
-=======
     // Fetch messages where either I sent to partner, or partner sent to me
->>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
     const messages = await Message.find({
       $or: [
         { sender: req.user.userId, receiver: partnerId },
         { sender: partnerId, receiver: req.user.userId }
       ]
     })
-<<<<<<< HEAD
-    .sort({ timestamp: 1 }) 
-    .populate('sender', 'name')
-    .populate('receiver', 'name');
-
-=======
     .sort({ timestamp: 1 }) // Chronological order
     .populate('sender', 'name')
     .populate('receiver', 'name');
 
     // Opening this conversation counts as reading the partner's messages
->>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
     await Message.updateMany(
       { sender: partnerId, receiver: req.user.userId, isRead: false },
       { $set: { isRead: true } }
     );
 
-<<<<<<< HEAD
-=======
     // Partner Details (to show in the header)
->>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
     const partner = await User.findById(partnerId).select('name phoneNumber _id');
 
     res.json({
@@ -112,17 +83,11 @@ router.get('/:partnerId', auth, async (req, res, next) => {
   }
 });
 
-<<<<<<< HEAD
-router.get('/', auth, async (req, res, next) => {
-  try {
-
-=======
 // GET /api/messages
 // Get all recent chat partners (Inbox)
 router.get('/', auth, async (req, res, next) => {
   try {
     // Find all messages involving the current user
->>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
     const messages = await Message.find({
       $or: [{ sender: req.user.userId }, { receiver: req.user.userId }]
     })
@@ -130,29 +95,17 @@ router.get('/', auth, async (req, res, next) => {
     .populate('sender', 'name')
     .populate('receiver', 'name');
 
-<<<<<<< HEAD
+    // Extract unique partners and their latest message
     const conversationsMap = new Map();
 
     messages.forEach(msg => {
+      // Determine exactly who the other person is
       const partnerIdStr = msg.sender._id.toString() === req.user.userId
         ? msg.receiver._id.toString()
         : msg.sender._id.toString();
 
       const partnerData = msg.sender._id.toString() === req.user.userId
         ? msg.receiver
-=======
-    // Extract unique partners and their latest message
-    const conversationsMap = new Map();
-
-    messages.forEach(msg => {
-      // Determine exactly who the other person is
-      const partnerIdStr = msg.sender._id.toString() === req.user.userId 
-        ? msg.receiver._id.toString() 
-        : msg.sender._id.toString();
-        
-      const partnerData = msg.sender._id.toString() === req.user.userId 
-        ? msg.receiver 
->>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
         : msg.sender;
 
       if (!conversationsMap.has(partnerIdStr)) {

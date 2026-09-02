@@ -113,7 +113,7 @@ describe('GET /api/users/history', () => {
     User.findById.mockReturnValue(chainable({
       bookedRides: [
         { rideId: { toObject: () => ({ _id: 'r2', departureTime: new Date(2026, 0, 1) }) }, bookedAt: new Date() },
-        { rideId: null, bookedAt: new Date() }, 
+        { rideId: null, bookedAt: new Date() }, // deleted ride — should be filtered out
       ]
     }));
 

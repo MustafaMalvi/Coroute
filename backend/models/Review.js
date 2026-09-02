@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
 
+// A Ride Partner leaves this after a ride actually happens, rating the Host.
+// Kept one per (ride, reviewer) — submitting again just edits the existing one
+// rather than piling up duplicates.
 const ReviewSchema = new mongoose.Schema({
   ride: { type: mongoose.Schema.Types.ObjectId, ref: 'Ride', required: true },
   host: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },

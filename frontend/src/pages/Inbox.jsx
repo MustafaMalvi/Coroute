@@ -2,10 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../api';
 import { AuthContext } from '../context/AuthContext';
-<<<<<<< HEAD
 import { spinner } from '../styles/style';
-=======
->>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
 
 const Inbox = () => {
   const [conversations, setConversations] = useState([]);
@@ -39,11 +36,7 @@ const Inbox = () => {
         <h2 className="font-display text-3xl mb-8">Messages</h2>
 
         {loading ? (
-<<<<<<< HEAD
           <div className="flex justify-center p-12"><div className={spinner}></div></div>
-=======
-          <div className="flex justify-center p-12"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-route-500"></div></div>
->>>>>>> 4ba24fce8e86fc4305bf3ccaac00450d3f7638f9
         ) : conversations.length === 0 ? (
           <div className="bg-white rounded-2xl border border-dashed border-ink/15 p-12 text-center">
             <p className="text-ink-600 text-lg">Your inbox is empty.</p>

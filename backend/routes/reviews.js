@@ -7,6 +7,7 @@ const Booking = require('../models/Booking');
 const Ride = require('../models/Ride');
 const User = require('../models/User');
 
+// re-averages a host's rating whenever a review is added or edited
 async function recalcHostRating(hostId) {
   const [stats] = await Review.aggregate([
     { $match: { host: hostId } },
@@ -18,6 +19,7 @@ async function recalcHostRating(hostId) {
   await User.findByIdAndUpdate(hostId, { rating: avg, reviewCount: count });
 }
 
+// GET /api/reviews/host/:hostId — public, shown on the host's profile
 router.get('/host/:hostId', async (req, res, next) => {
   try {
     const reviews = await Review.find({ host: req.params.hostId })
@@ -31,6 +33,7 @@ router.get('/host/:hostId', async (req, res, next) => {
   }
 });
 
+// GET /api/reviews/ride/:rideId/mine — has this partner already reviewed this ride?
 router.get('/ride/:rideId/mine', auth, requireRole('partner'), async (req, res, next) => {
   try {
     const review = await Review.findOne({ ride: req.params.rideId, reviewer: req.user.userId });
@@ -40,6 +43,7 @@ router.get('/ride/:rideId/mine', auth, requireRole('partner'), async (req, res, 
   }
 });
 
+// POST /api/reviews — leave (or update) a review for the host of a ride
 router.post('/', auth, requireRole('partner'), async (req, res, next) => {
   try {
     const { rideId, rating, comment } = req.body;
@@ -56,6 +60,7 @@ router.post('/', auth, requireRole('partner'), async (req, res, next) => {
     if (!booking || booking.bookingStatus === 'cancelled') {
       return res.status(403).json({ message: 'You can only review rides you actually booked.' });
     }
+    // for a one-off ride, wait until it's actually happened before letting them rate it
     if (booking.bookingType === 'single' && new Date(ride.departureTime) > new Date()) {
       return res.status(400).json({ message: "You can review this ride once it's actually happened." });
     }
