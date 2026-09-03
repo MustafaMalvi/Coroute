@@ -19,6 +19,9 @@ import TrackRide from './pages/TrackRide';
 import MyRides from './pages/MyRides';
 import MyBookings from './pages/MyBookings';
 import About from './pages/About';
+import Contact from './pages/Contact';
+import Privacy from './pages/Privacy';
+import Terms from './pages/Terms';
 
 function App() {
   return (
@@ -31,6 +34,9 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/find-ride" element={<FindRide />} />
           <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/terms" element={<Terms />} />
           <Route path="/offer-ride"
             element={
               <ProtectedRoute allowedRoles={['host']}>

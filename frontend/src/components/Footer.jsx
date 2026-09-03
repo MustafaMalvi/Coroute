@@ -8,11 +8,11 @@ const FOOTER_LINKS = {
   ],
   Company: [
     { label: 'About', to: '/about' },
-    { label: 'Contact', href: '#' },
+    { label: 'Contact', to: '/contact' },
   ],
   Legal: [
-    { label: 'Privacy Policy', href: '#' },
-    { label: 'Terms', href: '#' },
+    { label: 'Privacy Policy', to: '/privacy' },
+    { label: 'Terms', to: '/terms' },
   ],
 };
 
