@@ -18,6 +18,7 @@ import Chat from './pages/Chat';
 import TrackRide from './pages/TrackRide';
 import MyRides from './pages/MyRides';
 import MyBookings from './pages/MyBookings';
+import About from './pages/About';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/find-ride" element={<FindRide />} />
+          <Route path="/about" element={<About />} />
           <Route path="/offer-ride"
             element={
               <ProtectedRoute allowedRoles={['host']}>
