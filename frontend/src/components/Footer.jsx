@@ -2,12 +2,12 @@ import { Link } from 'react-router-dom';
 
 const FOOTER_LINKS = {
   Product: [
-    { label: 'Find a Ride', to: '/FindRide' },
-    { label: 'Offer a Ride', to: '/OfferRide' },
-    { label: 'Track a Ride', to: '/TrackRide' },
+    { label: 'Find a Ride', to: '/find-ride' },
+    { label: 'Offer a Ride', to: '/offer-ride' },
+    { label: 'Track a Ride', to: '/track-ride' },
   ],
   Company: [
-    { label: 'About', to: '/About' },
+    { label: 'About', to: '/about' },
     { label: 'Contact', href: '#' },
   ],
   Legal: [

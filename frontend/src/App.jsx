@@ -29,78 +29,60 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/find-ride" element={<FindRide />} />
-          <Route
-            path="/offer-ride"
+          <Route path="/offer-ride"
             element={
               <ProtectedRoute allowedRoles={['host']}>
                 <OfferRide />
               </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/my-rides"
+            }/>
+          <Route path="/my-rides"
             element={
               <ProtectedRoute allowedRoles={['host']}>
                 <MyRides />
               </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/my-bookings"
+            }/>
+          <Route path="/my-bookings"
             element={
               <ProtectedRoute allowedRoles={['partner']}>
                 <MyBookings />
               </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/dashboard"
+            }/>
+          <Route path="/dashboard"
             element={
               <ProtectedRoute>
                 <Dashboard />
               </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/profile"
+            }/>
+          <Route path="/profile"
             element={
               <ProtectedRoute>
                 <Profile />
               </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/inbox"
+            }/>
+          <Route path="/inbox"
             element={
               <ProtectedRoute>
                 <Inbox />
               </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/chat/:partnerId"
+            }/>
+          <Route path="/chat/:partnerId"
             element={
               <ProtectedRoute>
                 <Chat />
               </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/track-ride"
+            }/>
+          <Route path="/track-ride"
             element={
               <ProtectedRoute>
                 <TrackRide />
               </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/track-ride/:rideId"
+            }/>
+          <Route path="/track-ride/:rideId"
             element={
               <ProtectedRoute>
                 <TrackRide />
               </ProtectedRoute>
-            }
-          />
+            }/>
         </Routes>
       </main>
       <Footer />
