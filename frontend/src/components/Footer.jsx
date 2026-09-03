@@ -34,8 +34,8 @@ const Footer = () => (
             </a>
             <a href="#" aria-label="LinkedIn" className="w-8 h-8 rounded-full bg-paper/5 flex items-center justify-center text-paper/50 hover:text-marigold-500 hover:bg-paper/10 transition-colors">
               <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.61 0 4.28 2.38 4.28 5.47v6.27zM5.34 7.43a2.06 2.06 0 110-4.12 2.06 2.06 0 010 4.12zM7.12 20.45H3.56V9h3.56v11.45z" /></svg>
-            </a> */}
-          </div>
+            </a>
+          </div> */}
         </div>
 
         {Object.entries(FOOTER_LINKS).map(([section, links]) => (
